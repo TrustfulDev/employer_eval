@@ -1,7 +1,10 @@
-import React, {useState} from 'react'
+import { useState } from 'react';
+
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Searchbar = () => {
     const [searchInput, setSearchInput] = useState("");
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         e.preventDefault();
@@ -11,15 +14,22 @@ const Searchbar = () => {
     /*if (searchInput.length > 0) {
     }*/
 
-    return <div>
+    const handleSubmit = () => {
+        navigate('/search', { state: { value: searchInput }});
+    }
 
-        <input
-            type="search"
-            placeholder="Search here"
-            onChange={handleChange}
-            value={searchInput} />
+    return (
+        <form onSubmit={ handleSubmit }>
 
-    </div>
-}
+            <input
+                type="search"
+                placeholder="Search here"
+                onChange={handleChange}
+                value={searchInput} 
+            />
+
+            <input type='submit' className='hidden' />
+        </form>
+)}
 
 export default Searchbar;
