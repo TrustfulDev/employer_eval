@@ -1,4 +1,5 @@
 import { hero_illustration, bench, tulip } from "../assets";
+import { Searchbar } from "../components";
 
 const Home = () => {
     return (
@@ -9,7 +10,7 @@ const Home = () => {
                 <h1 className="text-6xl">Find Your Dream Job <span className="text-purple-700">With Us</span></h1>
                 <h2 className="text-2xl">Enter an <b>address</b> to get started</h2>
 
-                {/* Search bar goes here - Most likely a component */}
+                <Searchbar/>
             </div>
 
             <img src={bench} alt='A bench' className="absolute bottom-0 right-[354px] w-[236px] h-auto" />
