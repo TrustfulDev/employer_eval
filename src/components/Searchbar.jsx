@@ -26,7 +26,7 @@ const Searchbar = () => {
                 placeholder="Search here"
                 onChange={handleChange}
                 value={searchInput} 
-                className='w-full rounded px-4 py-2.5 mt-8 bg-white text-gray-900'
+                className='w-full rounded px-4 py-2.5 my-8 bg-white text-gray-900'
             />
 
             <input type='submit' className='hidden' />
