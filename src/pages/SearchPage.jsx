@@ -1,13 +1,21 @@
 import { useLocation } from 'react-router-dom';
+import {  mcdonalds } from "../assets";
+import { SearchCard } from "../components";
+
 
 const SearchPage = () => {
     const { state } = useLocation();
 
     return (
-        <div>
+        <section>
             <h1>SEARCH PAGE</h1>
-            <p>Your value is: {state.value}</p>
-        </div>
+            <SearchCard img={mcdonalds} 
+                alt="image of employer" 
+                employer={"Mcdonalds"}
+                address={"777 Story Rd"}
+                score={"70"}                   
+            />
+        </section>
     )
 }
 
