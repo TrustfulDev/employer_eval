@@ -12,4 +12,4 @@ export { default as tulip } from './tulip.png';
 export { default as bench } from './bench.png';
 export { default as pin } from './pin.png';
 
-export { default as mcdonalds } from './mcdonalds.png';
+export { default as mcdonalds } from './mcdonalds.jpg';
