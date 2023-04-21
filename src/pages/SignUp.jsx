@@ -34,6 +34,9 @@ const SignUp = () => {
 
     return (
         <div className ="pt-20 px-56">
+            <div className="absolute top-5 left-5">
+                <h1 className="block text-white text-lg font-bold">Employer<b className="text-purple-500">Eval</b></h1>
+            </div>
             <div class="w-full max-w-md">
                 <form className="black-gradient shadow-md rounded px-8 pt-6 pb-8 mb-4" id='sign-up-form' onSubmit={signUp}>
                     <h1 className="flex justify-center block text-white-800 text-lg font-bold mb-6">Create Your Account</h1> 
