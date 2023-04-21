@@ -39,10 +39,10 @@ const SignUp = () => {
             </div>
             <div class="w-full max-w-md">
                 <form className="black-gradient shadow-md rounded px-8 pt-6 pb-8 mb-4" id='sign-up-form' onSubmit={signUp}>
-                    <h1 className="flex justify-center block text-white-800 text-lg font-bold mb-6">Create Your Account</h1> 
+                    <h1 className="flex justify-center block text-white-800 text-2xl font-bold mb-6">Create Your Account</h1> 
                     <div className="mb-2">
                         <label className="block white text-md font-bold" htmlFor='firstName'>First Name</label>
-                        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
+                        <input className="shadow appearance-none bg-white border-2 border-purple-500 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-none"
                             name='firstName' 
                             type='text'
                             value={userInfo.firstName}
@@ -52,7 +52,7 @@ const SignUp = () => {
 
                     <div className="mb-2">
                         <label className="block white text-md font-bold" htmlFor='lastName'>Last Name</label>
-                        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
+                        <input className="shadow appearance-none bg-white border-2 border-purple-500 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-none"
                             name='lastName' 
                             type='text' 
                             value={userInfo.lastName}
@@ -62,7 +62,7 @@ const SignUp = () => {
                 
                     <div className="mb-2">
                         <label className="block white text-md font-bold" htmlFor='email'>Email</label>
-                        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
+                        <input className="shadow appearance-none bg-white border-2 border-purple-500 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-none"
                             name='email' 
                             type='email' 
                             value={userInfo.email} 
@@ -72,7 +72,7 @@ const SignUp = () => {
 
                     <div className="mb-10">
                         <label className="block white text-md font-bold" htmlFor='password'>Password</label>
-                        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
+                        <input className="shadow appearance-none bg-white border-2 border-purple-500 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-none"
                             name='password' 
                             type='password' 
                             value={userInfo.password} 
