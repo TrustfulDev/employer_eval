@@ -6,6 +6,7 @@ const Home = () => {
     return (
         <>
             <section className="h-screen flex justify-center items-center gap-9 mx-4 2xl:items-start 2xl:mt-10">
+
                 <img src={hero_illustration} alt='Hero Illustration' className="max-w-[692px] h-auto 2xl:hidden"/>
 
                 <div className="">
