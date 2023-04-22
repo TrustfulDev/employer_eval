@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const Home = () => {
     return (
         <>
-            <section className="h-screen flex justify-center items-center gap-9 mx-4 2xl:items-start 2xl:mt-10">
+            <section className="h-screen flex justify-center items-center gap-9 mx-4">
 
                 <img src={hero_illustration} alt='Hero Illustration' className="max-w-[692px] h-auto 2xl:hidden"/>
 
@@ -22,7 +22,7 @@ const Home = () => {
             </section>
 
             <section id="join-us" className="min-h-screen h-full flex flex-col justify-center align-center px-4 relative lg:px-2 black-gradient">
-                <h1 className="text-6xl text-center font-bold absolute top-16 w-full lg:relative lg:top-0 lg:my-5 md:text-4xl">Become Part Of The Family</h1>
+                <h1 className="text-6xl text-center font-bold absolute top-20 w-full lg:relative lg:top-0 lg:my-5 md:text-4xl">Become Part Of The Family</h1>
                 <div className="flex justify-evenly opacity-25 absolute w-full top-[203px] -z-10 lg:hidden">
                     <div className="min-w-[300px] h-[300px] card-gradient rounded-3xl"></div>
                     <div className="min-w-[300px] h-[300px] card-gradient rounded-3xl"></div>
