@@ -7,8 +7,7 @@ const SearchPage = () => {
     // const { state } = useLocation();
 
     return (
-        <section>
-            <h1>SEARCH PAGE</h1>
+        <section className="px-5 py-5">
             <SearchCard img={mcdonalds} 
                 alt="image of employer" 
                 employer={"Mcdonalds"}
