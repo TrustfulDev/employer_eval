@@ -36,3 +36,14 @@ export const createUser = async (user, userInfo) => {
     bookmark: null
   });
 }
+
+export const createEmployer = async (employer) => {
+  await addDoc(collection(db, 'employer'), {
+    employerName: employer.employerName,
+    streetAddress: employer.streetAddress,
+    city: employer.city,
+    state: employer.state,
+    zipCode: employer.zipCode,
+    rating: employer.rating
+  })
+}
