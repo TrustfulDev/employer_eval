@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { mcdonalds } from "../assets";
-import { SearchCard } from "../components";
+import { Filter, SearchCard } from "../components";
 
 const dummyData = [
     {
@@ -55,10 +55,10 @@ const SearchPage = () => {
                     <div>
                         <h1 className='text-6xl mb-3 lg:text-4xl xsm:text-2xl'>{state.value}</h1>
 
-                        <div className='PLACEHOLDER FOR INPUT BOXES flex gap-[1rem]'>
-                            <div className='w-[121px] h-[36px] bg-slate-800 rounded-[5px] border-[1px] border-purple-700 xsm:w-[104px]'></div>
-                            <div className='w-[121px] h-[36px] bg-slate-800 rounded-[5px] border-[1px] border-purple-700 xsm:w-[104px]'></div>
-                            <div className='w-[121px] h-[36px] bg-slate-800 rounded-[5px] border-[1px] border-purple-700 xsm:w-[104px]'></div>
+                        <div className='flex gap-[1rem]'>
+                            <Filter options={["Industry", "Fast Food", "Retail", "Tech", "Medical"]}/>
+                            <Filter options={["Salary", "Descending", "Ascending"]}/>
+                            <Filter options={["Rating", "1", "2", "3", "4", "5"]}/>
                         </div>
                     </div>
 
