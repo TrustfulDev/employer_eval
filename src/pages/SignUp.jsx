@@ -43,6 +43,7 @@ const SignUp = () => {
                             <label className="block white text-md font-bold" htmlFor='firstName'>First Name</label>
                             <input className="shadow appearance-none bg-white border-2 border-purple-500 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-none"
                                 name='firstName' 
+                                id='firstName'
                                 type='text'
                                 value={userInfo.firstName}
                                 onChange={(e) => inputChange(e)} 
@@ -53,6 +54,7 @@ const SignUp = () => {
                             <label className="block white text-md font-bold" htmlFor='lastName'>Last Name</label>
                             <input className="shadow appearance-none bg-white border-2 border-purple-500 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-none"
                                 name='lastName' 
+                                id='lastName'
                                 type='text' 
                                 value={userInfo.lastName}
                                 onChange={(e) => inputChange(e)} 
@@ -63,6 +65,7 @@ const SignUp = () => {
                             <label className="block white text-md font-bold" htmlFor='email'>Email</label>
                             <input className="shadow appearance-none bg-white border-2 border-purple-500 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-none"
                                 name='email' 
+                                id='email'
                                 type='email' 
                                 value={userInfo.email} 
                                 onChange={(e) => inputChange(e)} 
@@ -73,6 +76,7 @@ const SignUp = () => {
                             <label className="block white text-md font-bold" htmlFor='password'>Password</label>
                             <input className="shadow appearance-none bg-white border-2 border-purple-500 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-none"
                                 name='password' 
+                                id='password'
                                 type='password' 
                                 value={userInfo.password} 
                                 onChange={(e) => inputChange(e)} 
