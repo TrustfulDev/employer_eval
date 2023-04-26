@@ -27,7 +27,6 @@ const Searchbar = () => {
 
     return (
         <form onSubmit={ handleSubmit } >
-
             <input
                 type="search"
                 placeholder="Search here"
