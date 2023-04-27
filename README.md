@@ -12,3 +12,5 @@ A review site which allows job hunters to assign ratings to employers/jobs
 - react-router-dom
 - firebase
 - Tailwind
+- @headlessui/react
+- @heroicons/react

@@ -1,10 +1,10 @@
 import { useLocation } from 'react-router-dom';
-import {  mcdonalds } from "../assets";
+import { mcdonalds } from "../assets";
 import { SearchCard } from "../components";
 
 
 const SearchPage = () => {
-    const { state } = useLocation();
+    // const { state } = useLocation();
 
     return (
         <section className="px-5 py-5">

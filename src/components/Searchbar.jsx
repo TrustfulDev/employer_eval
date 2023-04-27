@@ -1,21 +1,28 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Searchbar = () => {
-    const [searchInput, setSearchInput] = useState("");
     const navigate = useNavigate();
 
-    const handleChange = (e) => {
-        e.preventDefault();
-        setSearchInput(e.target.value);
+    const autoCompleteRef = useRef();
+    const inputRef = useRef();
+
+    const options = {
+        componentRestrictions: {country: "usa"},
+        fields: ["address_components", "geometry", "icon", "name"],
+        types: ["establishment"]
     };
 
-    /*if (searchInput.length > 0) {
-    }*/
+    useEffect(() => {
+        autoCompleteRef.current = new window.google.maps.places.Autocomplete(
+            inputRef.current,
+            options
+        );
+    },[])
 
     const handleSubmit = () => {
-        navigate('/search', { state: { value: searchInput }});
+        navigate('/search', { state: { value: inputRef.current.value }});
     }
 
     return (
@@ -24,9 +31,8 @@ const Searchbar = () => {
             <input
                 type="search"
                 placeholder="Search here"
-                onChange={handleChange}
-                value={searchInput} 
                 className='w-full rounded px-4 py-2.5 my-8 bg-white text-gray-900'
+                ref={inputRef}
             />
 
             <input type='submit' className='hidden' />
