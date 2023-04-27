@@ -50,3 +50,13 @@ html {
 .card-gradient {
   background: linear-gradient(180deg, var(--gradient-purple) 0%, rgba(249, 250, 251, 0.7) 100%);
 }
+
+@layer base {
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number'] {
+    -webkit-appearance: none;
+    margin: 0;
+    -moz-appearance: textfield !important;
+  }
+}

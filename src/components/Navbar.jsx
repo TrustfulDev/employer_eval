@@ -1,6 +1,8 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from '../firebase';
 import { Link } from 'react-router-dom'
 
 const navigation = [
@@ -14,7 +16,20 @@ function classNames(...classes) {
 
 export default function Navbar() {
 
-  const [currUser, setCurrUser] = useState("Bob");
+  const [currUser, setCurrUser] = useState('');
+
+  useEffect(()=>{
+    onAuthStateChanged(auth, (user) => {
+        if (user) {     // User is signed in
+          setCurrUser(user.uid);
+          
+        }
+        else     // User is signed out
+          console.log("user is logged out")
+
+      });
+     
+  }, [])
 
   return (
     <Disclosure as="nav" className="bg-gray-900 fixed w-full shadow-md shadow-gray-800 z-50">
@@ -35,7 +50,8 @@ export default function Navbar() {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                    <h1 className='text-2xl sm:text-xl xsm:hidden'>Employer<span className='text-purple-700'>Eval</span></h1>
+                    <Link to='/'><h1 className='text-2xl sm:text-xl xsm:hidden'>Employer<span className='text-purple-700'>Eval</span></h1></Link>
+                    <Link to='/'><h1 className='hidden text-2xl sm:text-xl xsm:block'>E<span className='text-purple-700'>E</span></h1></Link>
                 </div>
                 <div className="hidden sm:ml-2 sm:block">
                   <div className="flex space-x-1">

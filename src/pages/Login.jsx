@@ -1,8 +1,8 @@
 import {  signInWithEmailAndPassword   } from 'firebase/auth';
-import { Link, useNavigate } from 'react-router-dom'
 import {useState} from 'react';
 import { auth } from '../firebase';
 import {bench, tulip } from "../assets";
+import { Link, useNavigate } from 'react-router-dom'
 
  
 const Login = () => {
@@ -17,6 +17,8 @@ const Login = () => {
         bookmark: ''
     });
 
+    const [errorMessage, setErrorMessage] = useState('');
+
     // Handles input changes
     const inputChange = (e) => {
         const { name, value } = e.target;
@@ -29,12 +31,17 @@ const Login = () => {
         signInWithEmailAndPassword(auth, userInfo.email, userInfo.password)
         .then((userCredential) => {
             // Signed in
-            const user = userCredential.user;
-            console.log("signed in {user}");
             navigate("/");
         })
         .catch((err) => {
-            console.log(err);
+            const error = err.message;
+            const errorCode = err.code
+
+            if(errorCode === 'auth/wrong-password' || errorCode === 'auth/user-not-found'){
+                setErrorMessage('Invaild Login')
+            }
+            else
+                setErrorMessage(error);
         });
        
     }
@@ -46,14 +53,22 @@ const Login = () => {
                 <div class="w-full max-w-md">
                     <form className="black-gradient shadow-md rounded px-8 pt-6 pb-8 mb-4" id='login-form' onSubmit={login}>
                         <h1 className="block text-white-800 text-2xl font-bold mb-6">Login</h1> 
-   
+
+                        {errorMessage && (
+                                    <div className="block text-red-600 text-sm font-bold mb-5">
+                                        {errorMessage}
+                                    </div>
+                                )
+                         }
+
                         <div className="mb-2">
                             <label className="block white text-md font-bold" htmlFor='email'>Email</label>
                             <input className="shadow appearance-none bg-white border-2 border-purple-500 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-none"
                                 name='email' 
+                                id='email'
                                 type='email' 
-                                required
                                 value={userInfo.email} 
+                                required
                                 onChange={(e) => inputChange(e)} 
                             />
                         </div>
@@ -61,10 +76,11 @@ const Login = () => {
                         <div className="mb-10 sm:mb-8">
                             <label className="block white text-md font-bold" htmlFor='password'>Password</label>
                             <input className="shadow appearance-none bg-white border-2 border-purple-500 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-none"
-                                name='password' 
+                                name='password'
+                                id='password' 
                                 type='password' 
-                                required
                                 value={userInfo.password} 
+                                required
                                 onChange={(e) => inputChange(e)} 
                             />
                         </div>
@@ -82,7 +98,7 @@ const Login = () => {
                         </div>                              
                     </form>
                 </div>
-                <h1 className="text-white text-6xl font-bold mb-auto mt-56 ml-36 md:hidden">WELCOME BACK!</h1>
+                <h1  className="text-white text-6xl font-bold mb-auto w-[5%] mt-28 md:hidden">WELCOME BACK!</h1>
                 <img src={bench} alt='A bench' className="absolute bottom-0 right-[354px] w-[236px] h-auto xl:right-[184px] xl:w-[136px]" />
                 <img src={tulip} alt='A tulip plant' className="absolute bottom-0 right-[130px] w-[183px] h-auto xl:right-[20px] xl:w-[200px] sm:w-[100px]" />
             </div>
