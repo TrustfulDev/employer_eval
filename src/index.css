@@ -54,4 +54,13 @@ html {
 .blackFlip-gradient {
   background: linear-gradient(180deg, rgba(122, 91, 245, 0.25) 0%, var(--black) 100%);
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-}
+ }
+
+@layer base {
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number'] {
+    -webkit-appearance: none;
+    margin: 0;
+    -moz-appearance: textfield !important;
+  }

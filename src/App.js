@@ -1,7 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
 import { Navbar } from "./components"
+
 // Import Pages
-import { Home, SignUp, SearchPage, Account } from './pages';
+import { Home, SignUp, Login, Account, SearchPage, CreateEmployer } from './pages';
 
 function App() {
   return (
@@ -12,6 +13,8 @@ function App() {
         <Route path='/signup' element={<SignUp />}></Route>
         <Route path='/search' element={<SearchPage />}></Route>
         <Route path='/account' element={<Account />}></Route>
+        <Route path='/login' element={<Login />}></Route>
+        <Route path='/create' element={<CreateEmployer />}></Route>
       </Routes>
     </div>
   );

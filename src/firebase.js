@@ -29,10 +29,21 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 
 export const createUser = async (user, userInfo) => {
-  await addDoc(collection(db, 'users'), {
+  await addDoc(collection(db, 'user'), {
     firstName: userInfo.firstName,
     lastName: userInfo.lastName,
     email: userInfo.email,
-    password: userInfo.password
+    bookmark: null
   });
+}
+
+export const createEmployer = async (employer) => {
+  await addDoc(collection(db, 'employer'), {
+    employerName: employer.employerName,
+    streetAddress: employer.streetAddress,
+    city: employer.city,
+    state: employer.state,
+    zipCode: employer.zipCode,
+    rating: employer.rating
+  })
 }

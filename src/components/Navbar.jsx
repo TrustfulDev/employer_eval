@@ -35,7 +35,8 @@ export default function Navbar() {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                    <h1 className='text-2xl sm:text-xl xsm:hidden'>Employer<span className='text-purple-700'>Eval</span></h1>
+                    <Link to='/'><h1 className='text-2xl sm:text-xl xsm:hidden'>Employer<span className='text-purple-700'>Eval</span></h1></Link>
+                    <Link to='/'><h1 className='hidden text-2xl sm:text-xl xsm:block'>E<span className='text-purple-700'>E</span></h1></Link>
                 </div>
                 <div className="hidden sm:ml-2 sm:block">
                   <div className="flex space-x-1">

@@ -14,3 +14,4 @@ export { default as pin } from './pin.png';
 
 export { default as mcdonalds } from './mcdonalds.jpg';
 export { default as profilePic } from './profilePic.jpg';
+export { default as createBg } from './createBg.jpg';
