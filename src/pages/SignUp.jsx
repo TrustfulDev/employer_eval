@@ -36,7 +36,7 @@ const SignUp = () => {
         createUserWithEmailAndPassword(auth, userInfo.email, userInfo.password)
             .then((userCredential) => {
                 createUser(userCredential.user.uid, userInfo);
-                navigate('/login');
+                navigate('/');
         })
         .catch((err) => {
             const error = err.message;
@@ -109,8 +109,8 @@ const SignUp = () => {
 
                         <button type='submit' className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 rounded mb-4 w-full sm:mb-1">Sign Up</button>
 
-                        <div class="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
-                            <h3 class="mx-4 text-center font-semibold dark:text-white text-xl">or</h3>
+                        <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
+                            <h3 className="mx-4 text-center font-semibold dark:text-white text-xl">or</h3>
                         </div>
 
                         <div className="flex justify-center">

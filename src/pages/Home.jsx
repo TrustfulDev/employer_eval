@@ -1,25 +1,25 @@
 import { hero_illustration, bench, tulip, child_boy, child_girl, man_laptop, pin, woman_laptop } from "../assets";
 import { Searchbar, HomeCard } from "../components";
 import { useState, useEffect } from 'react';
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, getAuth } from "firebase/auth";
 import { auth } from '../firebase';
 import { Link } from "react-router-dom";
 
 const Home = () => {
     const [uid, setuid] = useState('')
+    const auth = getAuth();
 
-    useEffect(()=>{
-        onAuthStateChanged(auth, (user) => {
-            if (user) {     // User is signed in
-              setuid(user.uid);
-              
-            }
-            else     // User is signed out
-              console.log("user is logged out")
+    // useEffect(()=>{
+    //     onAuthStateChanged(auth, (user) => {
+    //         if (user) {     // User is signed in
+    //           setuid(user.uid);
+    //         }
+    //         else     // User is signed out
+    //           setuid('');
     
-          });
-         
-    }, [])
+    //       });     
+    // }, [])
+
     return (
         <>
             <section className="h-screen flex justify-center items-center gap-9 mx-4">

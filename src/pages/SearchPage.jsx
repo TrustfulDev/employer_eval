@@ -46,7 +46,7 @@ const dummyData = [
 ]
 
 const SearchPage = () => {
-    // const { state } = useLocation();
+    const { state } = useLocation();
 
     return (
         <section className='min-h-screen pt-20 px-10 pb-5 md:px-2'>
