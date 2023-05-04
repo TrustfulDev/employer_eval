@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Searchbar = () => {
     const navigate = useNavigate();
@@ -29,7 +29,7 @@ const Searchbar = () => {
         <form onSubmit={ handleSubmit } >
             <input
                 type="search"
-                placeholder="Search here"
+                placeholder="Search employer"
                 className='w-full rounded px-4 py-2.5 my-8 bg-white text-gray-900'
                 ref={inputRef}
             />

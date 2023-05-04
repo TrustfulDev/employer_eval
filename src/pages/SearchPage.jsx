@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { mcdonalds } from "../assets";
-import { Filter, SearchCard } from "../components";
+import { Filter, SearchCard, Searchbar } from "../components";
 
 const dummyData = [
     {
@@ -65,15 +65,8 @@ const SearchPage = () => {
                     <h1 className='text-5xl lg:text-3xl sm:hidden'>- {dummyData.length} Results -</h1>
                 </div>
 
-                <form>
-                    <input
-                        type="search"
-                        placeholder="Search employer"
-                        className='w-full rounded px-4 py-2.5 bg-white text-gray-900'
-                    />
-
-                    <input type='submit' className='hidden' />
-                </form>
+                <Searchbar/>
+                
             </div>
 
             <div className='flex flex-wrap gap-5 justify-center'>
