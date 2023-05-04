@@ -36,7 +36,7 @@ const SignUp = () => {
         <div className ="min-h-screen flex flex-col">
             <Link to='/'><h1 className="block text-white text-2xl font-bold px-8 py-4">Employer<span className="text-purple-500">Eval</span> <span className="text-base ml-3">Home</span> </h1></Link>
             <div className ="flex flex-1 items-center px-36 gap-8 lg:px-8">
-                <div class="w-full max-w-md">
+                <div className="w-full max-w-md">
                     <form className="black-gradient shadow-md rounded px-8 pt-6 pb-8 mb-4" id='sign-up-form' onSubmit={signUp}>
                         <h1 className="block text-white-800 text-2xl font-bold mb-6">Create Your Account</h1> 
                         <div className="mb-2">
