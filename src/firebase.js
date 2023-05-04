@@ -30,6 +30,7 @@ export const db = getFirestore(app);
 
 export const createUser = async (user, userInfo) => {
   await addDoc(collection(db, 'user'), {
+    uid: user,
     firstName: userInfo.firstName,
     lastName: userInfo.lastName,
     email: userInfo.email,
