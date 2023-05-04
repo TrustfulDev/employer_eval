@@ -52,8 +52,8 @@ export default function Navbar() {
   }
 
   useEffect(() => {
-    console.log(allUsers);
-    allUsers.forEach(e => e.email.toLowerCase() === currEmail.toLowerCase() ? setName(e.firstName) : "");
+    if (allUsers.length > 1)
+      allUsers.forEach(e => e.email.toLowerCase() === currEmail.toLowerCase() ? setName(e.firstName) : "");
     // setName(currEmail);
   }, [allUsers])
 

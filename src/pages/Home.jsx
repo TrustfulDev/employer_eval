@@ -1,24 +1,25 @@
 import { hero_illustration, bench, tulip, child_boy, child_girl, man_laptop, pin, woman_laptop } from "../assets";
 import { Searchbar, HomeCard } from "../components";
 import { useState, useEffect } from 'react';
-import { onAuthStateChanged, getAuth } from "firebase/auth";
+import { onAuthStateChanged, getAuth, setPersistence, browserSessionPersistence, signOut } from "firebase/auth";
 import { auth } from '../firebase';
 import { Link } from "react-router-dom";
 
 const Home = () => {
     const [uid, setuid] = useState('')
     const auth = getAuth();
+    setPersistence(auth, browserSessionPersistence);
 
-    // useEffect(()=>{
-    //     onAuthStateChanged(auth, (user) => {
-    //         if (user) {     // User is signed in
-    //           setuid(user.uid);
-    //         }
-    //         else     // User is signed out
-    //           setuid('');
+    useEffect(()=>{
+        onAuthStateChanged(auth, (user) => {
+            if (user) {     // User is signed in
+              setuid(user.uid);
+            }
+            else     // User is signed out
+              setuid('');
     
-    //       });     
-    // }, [])
+          });     
+    }, [])
 
     return (
         <>
