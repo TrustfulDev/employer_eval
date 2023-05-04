@@ -1,5 +1,5 @@
-import { hero_illustration, bench, tulip, child_boy, child_girl, man_laptop, pin, woman_laptop } from "../assets";
-import { AiFillEdit, IconName } from "react-icons/ai"
+import { tulip } from "../assets";
+import { AiFillEdit } from "react-icons/ai"
 import { MdAccountBox } from "react-icons/md";
 import React, { useState } from "react";
 
