@@ -1,7 +1,28 @@
+import {
+    Chart as ChartJS,
+    RadialLinearScale,
+    PointElement,
+    LineElement,
+    Filler,
+    Tooltip,
+    Legend,
+  } from 'chart.js';
+import { Radar } from 'react-chartjs-2';
+
 import { getFirestore, collection, doc, getDocs, onSnapshot } from "firebase/firestore";
 import React, {useState, useEffect} from "react";
 import { ScoreCircle } from "../components";
 import { Link } from "react-router-dom";
+import { mcdonalds } from "../assets";
+
+ChartJS.register(
+    RadialLinearScale,
+    PointElement,
+    LineElement,
+    Filler,
+    Tooltip,
+    Legend
+  );
 
 const dummyData = [
     {
@@ -11,22 +32,75 @@ const dummyData = [
     },
 ]
 
+const data = {
+    labels: ['Thing 1', 'Thing 2', 'Thing 3', 'Thing 4', 'Thing 5'],
+    datasets: [
+      {
+        label: '# of Votes',
+        data: [1, 9, 3, 5, 2],
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1,
+      },
+    ],
+};
+
+const options = {
+    plugins: {
+        legend: {
+          display: false,
+        },
+      },
+    scales: {
+        r: {
+          grid: {
+            color: 'rgba(240, 240, 240, 0.6)', // Change the color of grid lines to white
+          },
+          angleLines: {
+            color: 'rgba(240, 240, 240, 0.6)', // Change the color of angle lines to white
+          },
+          ticks: {
+            color: 'rgba(240, 240, 240, 0.6)', // Change the color of tick marks to white
+          },
+        },
+      },
+};
+
 const Employer = () => {
 
     return (
         <section className="min-h-screen pt-20 px-10 pb-5 md:px-2">
             <div class="grid grid-cols-2 grid-rows-2 gap-4 h-full">
                 <div class="">
-                    <div className="">
-                        <h1 className="text-5xl relative">
-                            Employer Name
-                        </h1>
-                        <p>Employer Location</p>
+                    <div className="mt-3">
+                        <div className="mb-5">
+                            <h1 className="text-5xl inline-block">
+                                Employer Name
+                            </h1>
+                            <p className="inline-block ml-4">Employer Location</p>
                         </div>
+                        <div className="flex mr-12">
+                            <div className="w-5/6">
+                                <img src={mcdonalds} alt="Main Image" className="rounded-[20px] h-[305px] max-w-[500px] h-full object-cover border-2 border-white-300"/>
+                            </div>
+                            <div className="flex flex-col w-1/6">
+                                <img src={mcdonalds} alt="Image 1" className="rounded-[15px] aspect-square object-cover mb-2 w-[75px] h-[75px] border-2 border-white-300" />
+                                <img src={mcdonalds} alt="Image 2" className="rounded-[15px] aspect-square object-cover mb-2 w-[75px] h-[75px] border-2 border-white-300" />
+                                <div className="relative">
+                                    <div className="rounded-[15px] w-[75px] h-[75px] border-2 border-white-300">
+                                        <img src={mcdonalds} alt="Image 3" className="rounded-[15px] aspect-square object-cover w-[75px] h-[75px] blur-sm"/>
+                                        <div className="absolute inset-0 mr-[30px] flex items-center justify-center">
+                                            <p className="text-white text-lg font-bold">More</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="">
                     <div className="">
-                        <h1 className="text-5xl mb-2 inline-block">
+                        <h1 className="text-4xl mb-2 inline-block">
                             Employer Score: 
                         </h1>
                         <div className="inline-block ml-4 mb-3">
@@ -40,13 +114,15 @@ const Employer = () => {
                                 )
                             })}
                         </div>
-                        <p className="border-t-2 border-white h-2"></p>
-                        <p>score</p>
+                        <p className="border-t-2 border-white"></p>
+                        <div className="w-[300px] h-[300px] mx-auto">
+                            <Radar data={data} options={options} />
+                        </div>
                     </div>
                 </div>
                 <div class="">
                     <div className = "">
-                        <h1 className="text-5xl mb-2">
+                        <h1 className="text-4xl mb-2">
                             Details
                         </h1>
                         <p className="border-t-2 border-white h-3"></p>
@@ -56,7 +132,7 @@ const Employer = () => {
                 <div class="">
                     <div className="">
                         <div className="flex justify-between">
-                            <h1 className="text-5xl mb-2 inline-block">
+                            <h1 className="text-4xl mb-2 inline-block">
                                 Reviews
                             </h1>
                             <p className="inline-block mt-6">Worked here before? Click <Link to='/' className="">here</Link> to write a review!</p>
