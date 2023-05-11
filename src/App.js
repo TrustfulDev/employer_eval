@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import { Navbar } from "./components"
 
 // Import Pages
-import { Home, SignUp, Login, Account, SearchPage, CreateEmployer, Employer} from './pages';
+import { Home, SignUp, Login, Account, SearchPage, CreateEmployer, Employer, WriteReview} from './pages';
 
 function App() {
   return (
@@ -16,6 +16,7 @@ function App() {
         <Route path='/login' element={<Login />}></Route>
         <Route path='/create' element={<CreateEmployer />}></Route>
         <Route path='/employer' element={<Employer />}></Route>
+        <Route path='/write' element={<WriteReview />}></Route>
       </Routes>
     </div>
   );

@@ -5,3 +5,4 @@ export { default as SearchCard } from './SearchCard';
 export { default as Filter } from './Filter';
 export { default as ScoreCircle } from './ScoreCircle';
 export { default as ReviewBox } from './ReviewBox';
+export { default as StarRating} from './StarRating';
