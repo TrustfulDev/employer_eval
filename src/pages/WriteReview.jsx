@@ -34,6 +34,13 @@ const WriteReview = () => {
                 <hr className='mb-8'/>
                 
                 <div className='flex flex-col mb-4'>
+                    <label htmlFor='zipCode'>Pay</label>
+                    <div className="mt-2">
+                        <StarRating/>
+                    </div>
+                </div>
+
+                <div className='flex flex-col mb-4'>
                     <label htmlFor='employerName'>Difficulty</label>
                     <div className="mt-2">
                         <StarRating/>
@@ -55,17 +62,26 @@ const WriteReview = () => {
                 </div>
 
                 <div className='flex flex-col mb-4'>
+                    <label htmlFor='streetAddress'>Life-Work Balance</label>
+                    <div className="mt-2">
+                        <StarRating/>
+                    </div>
+                </div>
+
+                <div className='flex flex-col mb-4'>
+                    <label htmlFor='streetAddress'>Culture</label>
+                    <div className="mt-2">
+                        <StarRating/>
+                    </div>
+                </div>
+
+                <div className='flex flex-col mb-4'>
                     <label htmlFor='state'>Diversity</label>
                     <div className="mt-2">
                         <StarRating/>
                     </div>
                 </div>
-                <div className='flex flex-col mb-4'>
-                    <label htmlFor='zipCode'>Pay</label>
-                    <div className="mt-2">
-                        <StarRating/>
-                    </div>
-                </div>
+                
                 <div className='flex flex-col mb-4'>
                     <label htmlFor='rating'>Additional comments</label>
                     <div className="mt-2">

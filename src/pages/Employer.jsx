@@ -33,11 +33,11 @@ const dummyData = [
 ]
 
 const data = {
-    labels: ['Difficulty', 'Enjoyment', 'Flexibility', 'Diversity', 'Pay'],
+    labels: ['Difficulty', 'Enjoyment', 'Flexibility', 'Life-Work Balance', 'Culture', 'Diversity', 'Pay'],
     datasets: [
       {
         label: '# of Votes',
-        data: [1, 2, 3, 4, 5],
+        data: [1, 2, 3, 4, 5, 1, 2],
         backgroundColor: 'rgba(255, 99, 132, 0.2)',
         borderColor: 'rgba(255, 99, 132, 1)',
         borderWidth: 1,
