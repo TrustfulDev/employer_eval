@@ -6,7 +6,7 @@ const StarRating = () => {
     const [rating, setRating] = useState(0);
     const [hover, setHover] = useState(0);
     return (
-      <div className="star-rating">
+      <div className="star-rating" style={{ fontSize: "30px" }}>
         {[...Array(5)].map((star, index) => {
           index += 1;
           return (
@@ -15,6 +15,10 @@ const StarRating = () => {
               key={index}
               className={index <= (hover || rating) ? "on" : "off"}
               onClick={() => setRating(index)}
+              onDoubleClick={() => {
+                setRating(0);
+                setHover(0);
+              }}
               onMouseEnter={() => setHover(index)}
               onMouseLeave={() => setHover(rating)}
             >
