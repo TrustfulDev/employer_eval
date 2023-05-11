@@ -1,7 +1,10 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Link } from 'react-router-dom'
+import { onAuthStateChanged, signOut, getAuth } from "firebase/auth";
+import { db } from '../firebase';
+import { collection, getDocs } from 'firebase/firestore';
+import { Link, useNavigate } from 'react-router-dom';
 
 const navigation = [
   { name: 'Reviews', href: '#', current: true },
@@ -13,8 +16,54 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+  const navigate = useNavigate();
+  const auth = getAuth();
+  const [name, setName] = useState([]);
 
-  const [currUser, setCurrUser] = useState("Bob");
+  const [currUser, setCurrUser] = useState('');
+  const [currEmail, setCurrEmail] = useState('');
+  const [allUsers, setAllUsers] = useState([{}]);
+
+  useEffect(()=>{
+    onAuthStateChanged(auth, (user) => {
+        if (user) {     // User is signed in
+          setCurrUser(user.uid);
+          setCurrEmail(user.email);
+          fetchName();
+        } else {
+          setCurrUser('');
+          setCurrEmail('');
+          navigate('/');
+        }
+      });
+    }, []);
+
+  const fetchName = async () => {
+    await getDocs(collection(db, "user"))
+      .then((querysnapshot) => {
+        const buffer = querysnapshot.docs.map((doc) => ({
+          email:doc.data().email, 
+          firstName:doc.data().firstName,
+          id:doc.id 
+        }));              
+        setAllUsers(buffer);
+      });
+
+  }
+
+  useEffect(() => {
+    if (allUsers.length > 1)
+      allUsers.forEach(e => e.email.toLowerCase() === currEmail.toLowerCase() ? setName(e.firstName) : "");
+    // setName(currEmail);
+  }, [allUsers])
+
+  const handleLogout = () => {
+    signOut(auth).then(() => {
+      // Sign-out successful.
+    }).catch((error) => {
+      // An error happened.
+    });
+  }
 
   return (
     <Disclosure as="nav" className="bg-gray-900 fixed w-full shadow-md shadow-gray-800 z-50">
@@ -58,9 +107,15 @@ export default function Navbar() {
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 {/* Profile dropdown */}
+                {currUser === '' ?
+                <>
+                  <Link to='/signup'>Sign Up</Link>
+                  <Link to='/login' className='ml-8'>Login</Link>
+                </>
+                :
                 <Menu as="div" className="relative">
                   <div className='flex justify-center items-center gap-5'>
-                    <p className='md:hidden'>Welcome back, <span className='font-bold'>{currUser}</span></p>
+                    <p className='md:hidden'>Welcome back, <span className='font-bold'>{name}</span></p>
                     <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       <span className="sr-only">Open user menu</span>
                       <img
@@ -96,6 +151,7 @@ export default function Navbar() {
                           <Link
                             to='/'
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                            onClick={handleLogout}
                           >
                             Sign out
                           </Link>
@@ -104,6 +160,7 @@ export default function Navbar() {
                     </Menu.Items>
                   </Transition>
                 </Menu>
+                }
               </div>
             </div>
           </div>

@@ -2,9 +2,11 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { auth, createUser } from '../firebase';
 import {bench, tulip } from "../assets";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+    const navigate = useNavigate();
+
     // User Information
     const [userInfo, setUserInfo] = useState({
         firstName: '',
@@ -13,6 +15,8 @@ const SignUp = () => {
         password: '',
         bookmark: ''
     });
+
+    const [errorMessage, setErrorMessage] = useState('');
 
     // Handles input changes
     const inputChange = (e) => {
@@ -23,13 +27,21 @@ const SignUp = () => {
     // Form submission for Sign Up
     const signUp = (e) => {
         e.preventDefault();
+
+        if(userInfo.password.length < 6){
+            setErrorMessage('Password should be at least 6 characters');
+            return;
+        }
+
         createUserWithEmailAndPassword(auth, userInfo.email, userInfo.password)
             .then((userCredential) => {
                 createUser(userCredential.user.uid, userInfo);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+                navigate('/');
+        })
+        .catch((err) => {
+            const error = err.message;
+            setErrorMessage(error);
+        });
     };
 
     return (
@@ -39,6 +51,14 @@ const SignUp = () => {
                 <div className="w-full max-w-md">
                     <form className="black-gradient shadow-md rounded px-8 pt-6 pb-8 mb-4" id='sign-up-form' onSubmit={signUp}>
                         <h1 className="block text-white-800 text-2xl font-bold mb-6">Create Your Account</h1> 
+
+                        {errorMessage && (
+                                    <div className="block text-red-600 text-sm font-bold mb-5">
+                                        {errorMessage}
+                                    </div>
+                                )
+                         }
+                         
                         <div className="mb-2">
                             <label className="block white text-md font-bold" htmlFor='firstName'>First Name</label>
                             <input className="shadow appearance-none bg-white border-2 border-purple-500 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-none"
@@ -46,6 +66,7 @@ const SignUp = () => {
                                 id='firstName'
                                 type='text'
                                 value={userInfo.firstName}
+                                required
                                 onChange={(e) => inputChange(e)} 
                             />
                         </div>
@@ -57,6 +78,7 @@ const SignUp = () => {
                                 id='lastName'
                                 type='text' 
                                 value={userInfo.lastName}
+                                required
                                 onChange={(e) => inputChange(e)} 
                             />
                         </div>
@@ -68,6 +90,7 @@ const SignUp = () => {
                                 id='email'
                                 type='email' 
                                 value={userInfo.email} 
+                                required
                                 onChange={(e) => inputChange(e)} 
                             />
                         </div>
@@ -79,19 +102,20 @@ const SignUp = () => {
                                 id='password'
                                 type='password' 
                                 value={userInfo.password} 
+                                required
                                 onChange={(e) => inputChange(e)} 
                             />
                         </div>
 
                         <button type='submit' className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 rounded mb-4 w-full sm:mb-1">Sign Up</button>
 
-                        <div class="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
-                            <h3 class="mx-4 text-center font-semibold dark:text-white text-xl">or</h3>
+                        <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
+                            <h3 className="mx-4 text-center font-semibold dark:text-white text-xl">or</h3>
                         </div>
 
                         <div className="flex justify-center">
                             <h4 className="text-white text-lg sm:text-base xsm:text-sm">Already have an account? 
-                                <Link className="text-purple-500 text-lg font-bold sm:text-base xsm:text-sm" to='/login'> LOGIN</Link>
+                                <Link className="text-purple-500 text-lg font-bold sm:text-base xsm:text-sm" to='/login'> Sign In</Link>
                             </h4>
                         </div> 
                     </form>
