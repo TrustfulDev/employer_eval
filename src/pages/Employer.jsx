@@ -33,11 +33,11 @@ const dummyData = [
 ]
 
 const data = {
-    labels: ['Thing 1', 'Thing 2', 'Thing 3', 'Thing 4', 'Thing 5'],
+    labels: ['Difficulty', 'Enjoyment', 'Flexibility', 'Diversity', 'Pay'],
     datasets: [
       {
         label: '# of Votes',
-        data: [1, 9, 3, 5, 2],
+        data: [1, 2, 3, 4, 5],
         backgroundColor: 'rgba(255, 99, 132, 0.2)',
         borderColor: 'rgba(255, 99, 132, 1)',
         borderWidth: 1,
@@ -50,20 +50,31 @@ const options = {
         legend: {
           display: false,
         },
-      },
+    },
     scales: {
         r: {
-          grid: {
-            color: 'rgba(240, 240, 240, 0.6)', // Change the color of grid lines to white
-          },
-          angleLines: {
-            color: 'rgba(240, 240, 240, 0.6)', // Change the color of angle lines to white
-          },
-          ticks: {
-            color: 'rgba(240, 240, 240, 0.6)', // Change the color of tick marks to white
-          },
-        },
-      },
+            max: 5,
+            min: 0,
+            grid: {
+                color: 'rgba(240, 240, 240, 0.6)', // Change the color of grid lines to white
+            },
+            angleLines: {
+                color: 'rgba(240, 240, 240, 0.6)', // Change the color of angle lines to white
+            },
+            ticks: {
+                color: 'rgba(240, 240, 240, 0.6)', // Change the color of tick marks to white
+                stepSize: 1,
+                display: false,
+            },
+            pointLabels: {
+                color: 'rgba(250, 250, 250, 0.8)', // Change the color of the labels to white
+                font: {
+                  size: 12, // Adjust the font size of the labels
+                  family: 'Rubik, sans-serif',
+                },
+            },
+        }
+    },
 };
 
 const Employer = () => {
@@ -81,15 +92,15 @@ const Employer = () => {
                         </div>
                         <div className="flex mr-12">
                             <div className="w-5/6">
-                                <img src={mcdonalds} alt="Main Image" className="rounded-[20px] h-[305px] max-w-[500px] h-full object-cover border-2 border-white-300"/>
+                                <img src={mcdonalds} alt="Main Image" className="rounded-[20px] h-[400px] max-w-[500px] h-full object-cover border-2 border-white-300"/>
                             </div>
                             <div className="flex flex-col w-1/6">
-                                <img src={mcdonalds} alt="Image 1" className="rounded-[15px] aspect-square object-cover mb-2 w-[75px] h-[75px] border-2 border-white-300" />
-                                <img src={mcdonalds} alt="Image 2" className="rounded-[15px] aspect-square object-cover mb-2 w-[75px] h-[75px] border-2 border-white-300" />
+                                <img src={mcdonalds} alt="Image 1" className="rounded-[15px] aspect-square object-cover mb-4 w-[100px] h-[100px] border-2 border-white-300" />
+                                <img src={mcdonalds} alt="Image 2" className="rounded-[15px] aspect-square object-cover mb-4 w-[100px] h-[100px] border-2 border-white-300" />
                                 <div className="relative">
-                                    <div className="rounded-[15px] w-[75px] h-[75px] border-2 border-white-300">
-                                        <img src={mcdonalds} alt="Image 3" className="rounded-[15px] aspect-square object-cover w-[75px] h-[75px] blur-sm"/>
-                                        <div className="absolute inset-0 mr-[30px] flex items-center justify-center">
+                                    <div className="rounded-[15px] w-[100px] h-[100px] border-2 border-white-300">
+                                        <img src={mcdonalds} alt="Image 3" className="rounded-[15px] aspect-square object-cover w-[100px] h-[100px] blur-sm"/>
+                                        <div className="absolute inset-0 mr-2 flex items-center justify-center">
                                             <p className="text-white text-lg font-bold">More</p>
                                         </div>
                                     </div>
@@ -115,7 +126,7 @@ const Employer = () => {
                             })}
                         </div>
                         <p className="border-t-2 border-white"></p>
-                        <div className="w-[300px] h-[300px] mx-auto">
+                        <div className="w-[400px] h-[400px] mx-auto">
                             <Radar data={data} options={options} />
                         </div>
                     </div>
