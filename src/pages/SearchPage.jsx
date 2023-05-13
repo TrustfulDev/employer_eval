@@ -62,7 +62,7 @@ const SearchPage = () => {
                         </div>
                     </div>
 
-                    <h1 className='text-5xl lg:text-3xl sm:hidden'>- {dummyData.length} Results -</h1>
+                    <h1 className='text-5xl lg:text-3xl sm:hidden min-w-[18rem]'>- {dummyData.length} Results -</h1>
                 </div>
 
                 <form>

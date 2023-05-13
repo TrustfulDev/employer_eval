@@ -1,7 +1,11 @@
 import { tulip } from "../assets";
 import { AiFillEdit } from "react-icons/ai"
 import { MdAccountBox } from "react-icons/md";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { onAuthStateChanged, signOut, getAuth } from "firebase/auth";
+import { db } from '../firebase';
+import { collection, getDocs } from 'firebase/firestore';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Account = () => {
 
@@ -10,39 +14,49 @@ const [activeTab, setActiveTab] = useState("profile");
 const handleTabClick = (tabName) => {
     setActiveTab(tabName);
   };
+  
+  const navigate = useNavigate();
+  const auth = getAuth();
+  const [name, setName] = useState([]);
+  const [lastName, setLastName] = useState([]);
+  const [currUser, setCurrUser] = useState("");
+  const [currEmail, setCurrEmail] = useState("");
+  const [allUsers, setAllUsers] = useState([{}]);
 
-//   const [editingField, setEditingField] = useState(null);
-//   const [name, setName] = useState('Haseeb Sayed');
-//   const [username, setUsername] = useState('Ohhaseeb');
-//   const [password, setPassword] = useState('xxxxx');
-//   const [email, setEmail] = useState('meow46@gmail.com');
+  useEffect(()=>{
+    onAuthStateChanged(auth, (user) => {
+        if (user) {     // User is signed in
+          setCurrUser(user.uid);
+          setCurrEmail(user.email);
+          fetchName();
+        } else {
+          setCurrUser('');
+          setCurrEmail('');
+          navigate('/');
+        }
+      });
+    }, []);
 
-//   const handleEditClick = (fieldName) => {
-//     setEditingField(fieldName);
-//   };
+  const fetchName = async () => {
+    await getDocs(collection(db, "user"))
+      .then((querysnapshot) => {
+        const buffer = querysnapshot.docs.map((doc) => ({
+          email:doc.data().email, 
+          firstName:doc.data().firstName,
+          lastName:doc.data().lastName,
+          id:doc.id 
 
-//   const handleFieldChange = (fieldName, value) => {
-//     switch (fieldName) {
-//       case 'name':
-//         setName(value);
-//         break;
-//       case 'username':
-//         setUsername(value);
-//         break;
-//       case 'password':
-//         setPassword(value);
-//         break;
-//       case 'email':
-//         setEmail(value);
-//         break;
-//       default:
-//         break;
-//     }
-//   };
+        }));              
+        setAllUsers(buffer);
+      });
 
-//   const handleSaveClick = () => {
-//     setEditingField(null);
-//   };
+  }
+
+  useEffect(() => {
+    if (allUsers.length > 1)
+      allUsers.forEach(e => e.email.toLowerCase() === currEmail.toLowerCase() ? (setName(e.firstName), setLastName(e.lastName)) : "");
+    // setName(currEmail);
+  }, [allUsers])
 
     return (
     // First of three divs which divide the page into 3 columns, this first column contains the profile pic, username, profile, bookmarks etc 
@@ -52,8 +66,8 @@ const handleTabClick = (tabName) => {
             <div className="flex flex-col">
                 <MdAccountBox className="mt-24 w-[299px] h-[299px] lg:hidden" />
                 <div className="lg:mt-36 md:hidden">
-                    <h2 className="ml-12 text-[32px] lg:text-[28px]"> NAME HERE </h2>
-                    <h2 className="ml-12 text-[24px] text-gray-400"> username </h2>
+                    <h2 className="ml-12 text-[32px] lg:text-[28px]"> {name} {lastName} </h2>
+                    <h2 className="ml-12 text-[24px] text-gray-400">  </h2>
                 </div>
                 <hr className="my-[20px] w-[150px] ml-[50px] bg-purple-700 border-none h-[1px] lg:w-[100px] md:hidden"/>
                 {/* Profile, bookmark, Reviews div */}
@@ -71,10 +85,9 @@ const handleTabClick = (tabName) => {
                 <div className=" w-full h-full blackFlip-gradient rounded-3xl px-[3rem] py-[2rem] lg:px-[2rem]">
                     <h1 className="text-3xl mb-8"> Profile Details </h1>
                     <ul className="list-userInfo">
-                        <li className="flex justify-between text-xl mb-4 lg:text-lg"> Name: Haseeb Sayed <AiFillEdit className="inline-block " /> </li>
-                        <li className="flex justify-between text-xl mb-4 lg:text-lg"> Username: Ohhaseeb <AiFillEdit className="inline-block " /> </li>
-                        <li className="flex justify-between text-xl mb-4 lg:text-lg"> Password: ******** <AiFillEdit className="inline-block " /> </li>
-                        <li className="flex justify-between text-xl mb-4 lg:text-lg"> Email: meow46@gmail.com <AiFillEdit className="inline-block " /> </li>
+                        <li className="flex justify-between text-xl mb-4 lg:text-lg"> First Name: {name} <AiFillEdit className="inline-block " /> </li>
+                        <li className="flex justify-between text-xl mb-4 lg:text-lg"> Last Name: {lastName} <AiFillEdit className="inline-block " /> </li>
+                        <li className="flex justify-between text-xl mb-4 lg:text-lg"> Email: {currEmail} <AiFillEdit className="inline-block " /> </li>
                     </ul>
                     
                 </div>
