@@ -26,6 +26,7 @@ const SearchPage = () => {
                     rating: doc.data().rating,
                     city: doc.data().city,
                     state: doc.data().state,
+                    id: doc.id
                 }
             ));
             setData(buffer);
@@ -53,8 +54,8 @@ const SearchPage = () => {
         }
     }, [data])
 
-    const parentCallback = (name, addr, rating, desc) => {
-        navigate("/employer", { state : { name: name, addr: addr, rating: rating, desc: desc }});
+    const parentCallback = (name, addr, rating, desc, id) => {
+        navigate("/employer", { state : { name: name, addr: addr, rating: rating, desc: desc, id: id }});
     }
 
     return (
@@ -92,12 +93,13 @@ const SearchPage = () => {
                     newData.map((employer, index) => {
                         return (
                             <SearchCard img={mcdonalds} 
+                                id={employer.id}
                                 alt="image of employer" 
                                 employer={employer.name}
                                 address={employer.addr}
                                 score={employer.rating} 
                                 parentCallback={parentCallback}        
-                                key={index}      
+                                key={index}
                             />
                         )
                     })
