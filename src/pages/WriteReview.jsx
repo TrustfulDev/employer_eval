@@ -35,7 +35,7 @@ const WriteReview = () => {
     const handleCreate = (e) => {
         e.preventDefault();
         createReview(reviewInfo);
-        navigate('/');
+        navigate('/employer');
     }
 
     return (
