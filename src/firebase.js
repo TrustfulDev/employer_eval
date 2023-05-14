@@ -68,7 +68,7 @@ export const createReview = async (review) => {
     enjoymentRating: review.enjoymentRating,
     flexibilityRating: review.flexibilityRating,
     lifeWorkRating: review.lifeWorkRating,
-    cultureRating: review.cultureRatine,
+    cultureRating: review.cultureRating,
     diversityRating: review.diversityRating,
     comments: review.comments
   })
