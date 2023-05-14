@@ -4,27 +4,38 @@ import { Link } from "react-router-dom";
 import { StarRating } from "../components";
 import { createBg } from '../assets';
 import { useNavigate } from 'react-router';
+import { createReview} from '../firebase';
 
 const WriteReview = () => {
     const navigate = useNavigate();
-    const [employerInfo, setEmployerInfo] = useState({
-        employerName: '',
-        streetAddress: '',
-        city: '',
-        state: '',
-        zipCode: '',
-        rating: 0
+    const [reviewInfo, setReviewInfo] = useState({
+        payRating: 0,
+        difficultyRating: 0,
+        enjoymentRating: 0,
+        flexibilityRating: 0,
+        lifeWorkRating: 0,
+        cultureRating: 0,
+        diversityRating: 0,
+        comments: ''
     });
 
     // Handles input changes
     const inputChange = (e) => {
         const { name, value } = e.target;
-        setEmployerInfo(prev => ({ ...prev, [name]: value }));
+        setReviewInfo(prev => ({ ...prev, [name]: value }));
     }
+
+    const handleRatingChange = (rating, category) => {
+        setReviewInfo((prevReviewInfo) => ({
+          ...prevReviewInfo,
+          [category]: rating,
+        }));
+    };
 
     const handleCreate = (e) => {
         e.preventDefault();
-        navigate('/search');
+        createReview(reviewInfo);
+        navigate('/');
     }
 
     return (
@@ -36,49 +47,49 @@ const WriteReview = () => {
                 <div className='flex flex-col mb-4'>
                     <label htmlFor='zipCode'>Pay</label>
                     <div className="mt-2">
-                        <StarRating/>
+                        <StarRating onRatingChange={(rating) => handleRatingChange(rating, 'payRating')} />
                     </div>
                 </div>
 
                 <div className='flex flex-col mb-4'>
                     <label htmlFor='employerName'>Difficulty</label>
                     <div className="mt-2">
-                        <StarRating/>
+                        <StarRating onRatingChange={(rating) => handleRatingChange(rating, 'difficultyRating')} />
                     </div>
                 </div>
                 
                 <div className='flex flex-col mb-4'>
                     <label htmlFor='streetAddress'>Enjoyment</label>
                     <div className="mt-2">
-                        <StarRating/>
+                        <StarRating onRatingChange={(rating) => handleRatingChange(rating, 'enjoymentRating')} />
                     </div>
                 </div>
 
                 <div className='flex flex-col mb-4'>
                     <label htmlFor='city'>Flexibility</label>
                     <div className="mt-2">
-                        <StarRating/>
+                        <StarRating onRatingChange={(rating) => handleRatingChange(rating, 'flexibilityRating')} />
                     </div>
                 </div>
 
                 <div className='flex flex-col mb-4'>
                     <label htmlFor='streetAddress'>Life-Work Balance</label>
                     <div className="mt-2">
-                        <StarRating/>
+                        <StarRating onRatingChange={(rating) => handleRatingChange(rating, 'lifeWorkRating')}/>
                     </div>
                 </div>
 
                 <div className='flex flex-col mb-4'>
                     <label htmlFor='streetAddress'>Culture</label>
                     <div className="mt-2">
-                        <StarRating/>
+                        <StarRating onRatingChange={(rating) => handleRatingChange(rating, 'cultlureRating')}/>
                     </div>
                 </div>
 
                 <div className='flex flex-col mb-4'>
                     <label htmlFor='state'>Diversity</label>
                     <div className="mt-2">
-                        <StarRating/>
+                        <StarRating onRatingChange={(rating) => handleRatingChange(rating, 'diversityRating')}/>
                     </div>
                 </div>
                 
@@ -86,8 +97,8 @@ const WriteReview = () => {
                     <label htmlFor='rating'>Additional comments</label>
                     <div className="mt-2">
                         <textarea
-                            id='rating'
-                            name='rating'
+                            id='comments'
+                            name='comments'
                             className='bg-white rounded w-full py-10 px-3 text-black leading-tight'
                             style={{ paddingTop: '10px', marginTop: '-1px' }}
                             onChange={(e) => inputChange(e)}
