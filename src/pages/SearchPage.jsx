@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { mcdonalds } from "../assets";
 import { Filter, SearchCard } from "../components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import { onAuthStateChanged, getAuth } from 'firebase/auth';
@@ -11,6 +11,7 @@ import { onAuthStateChanged, getAuth } from 'firebase/auth';
 const SearchPage = () => {
     const { state } = useLocation();
     const auth = getAuth();
+    const navigate = useNavigate();
     const [data, setData] = useState([{}]);
     const [newData, setNewData] = useState([])
     const [currCity, setCurrCity] = useState();
@@ -46,12 +47,15 @@ const SearchPage = () => {
         if (data.length > 1) {
             data.forEach(e => {
                 if (e.city === currCity && e.state === currState) {
-                    
                     setNewData(prevData => [...prevData, e]);
                 }
             })
         }
     }, [data])
+
+    const parentCallback = (name, addr, rating, desc) => {
+        navigate("/employer", { state : { name: name, addr: addr, rating: rating, desc: desc }});
+    }
 
     return (
         <section className='min-h-screen pt-20 px-10 pb-5 md:px-2'>
@@ -91,7 +95,8 @@ const SearchPage = () => {
                                 alt="image of employer" 
                                 employer={employer.name}
                                 address={employer.addr}
-                                score={employer.rating}            
+                                score={employer.rating} 
+                                parentCallback={parentCallback}        
                                 key={index}      
                             />
                         )
