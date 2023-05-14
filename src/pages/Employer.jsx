@@ -12,7 +12,7 @@ import { Radar } from 'react-chartjs-2';
 import { getFirestore, collection, doc, getDocs, onSnapshot } from "firebase/firestore";
 import React, {useState, useEffect} from "react";
 import { ScoreCircle } from "../components";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { mcdonalds } from "../assets";
 
 ChartJS.register(
@@ -23,14 +23,6 @@ ChartJS.register(
     Tooltip,
     Legend
   );
-
-const dummyData = [
-    {
-        "employer": "McDonalds",
-        "address": "777 Story Rd",
-        "score": 70,
-    },
-]
 
 const data = {
     labels: ['Difficulty', 'Enjoyment', 'Flexibility', 'Life-Work Balance', 'Culture', 'Diversity', 'Pay'],
@@ -78,6 +70,9 @@ const options = {
 };
 
 const Employer = () => {
+    const location = useLocation();
+    const currState = location.state;
+    console.log(currState);
 
     return (
         <section className="min-h-screen pt-20 px-10 pb-5 md:px-2">
@@ -86,20 +81,20 @@ const Employer = () => {
                     <div className="mt-3">
                         <div className="mb-5">
                             <h1 className="text-5xl inline-block">
-                                Employer Name
+                                {currState.name}
                             </h1>
-                            <p className="inline-block ml-4">Employer Location</p>
+                            <p className="inline-block ml-4">{currState.addr}</p>
                         </div>
-                        <div className="flex mr-12">
-                            <div className="w-5/6">
-                                <img src={mcdonalds} alt="Main Image" className="rounded-[20px] h-[400px] max-w-[500px] h-full object-cover border-2 border-white-300"/>
+                        <div className="flex bg-white">
+                            <div className="">
+                                <img src={mcdonalds} alt="" className="rounded-[20px] max-w-[500px] h-full object-cover border-2 border-white-300"/>
                             </div>
                             <div className="flex flex-col w-1/6">
-                                <img src={mcdonalds} alt="Image 1" className="rounded-[15px] aspect-square object-cover mb-4 w-[100px] h-[100px] border-2 border-white-300" />
-                                <img src={mcdonalds} alt="Image 2" className="rounded-[15px] aspect-square object-cover mb-4 w-[100px] h-[100px] border-2 border-white-300" />
+                                <img src={mcdonalds} alt="" className="rounded-[15px] aspect-square object-cover mb-4 w-[100px] h-[100px] border-2 border-white-300" />
+                                <img src={mcdonalds} alt="" className="rounded-[15px] aspect-square object-cover mb-4 w-[100px] h-[100px] border-2 border-white-300" />
                                 <div className="relative">
                                     <div className="rounded-[15px] w-[100px] h-[100px] border-2 border-white-300">
-                                        <img src={mcdonalds} alt="Image 3" className="rounded-[15px] aspect-square object-cover w-[100px] h-[100px] blur-sm"/>
+                                        <img src={mcdonalds} alt="" className="rounded-[15px] aspect-square object-cover w-[100px] h-[100px] blur-sm"/>
                                         <div className="absolute inset-0 mr-2 flex items-center justify-center">
                                             <p className="text-white text-lg font-bold">More</p>
                                         </div>
@@ -115,15 +110,13 @@ const Employer = () => {
                             Employer Score: 
                         </h1>
                         <div className="inline-block ml-4 mb-3">
-                            { dummyData.map((employer, index) => {
-                                return (
-                                    <ScoreCircle
-                                    employer={employer.employer}
-                                    address={employer.address}
-                                    score={employer.score}            
-                                    key={index}/>
-                                )
-                            })}
+                            { 
+                                <ScoreCircle
+                                    employer={currState.employer}
+                                    address={currState.addr}
+                                    score={currState.rating}
+                                />
+                            }
                         </div>
                         <p className="border-t-2 border-white"></p>
                         <div className="w-[400px] h-[400px] mx-auto">
@@ -146,7 +139,7 @@ const Employer = () => {
                             <h1 className="text-4xl mb-2 inline-block">
                                 Reviews
                             </h1>
-                            <p className="inline-block mt-6">Worked here before? Click <Link to='/write' className="text-purple-500 hover:text-purple-700">here</Link> to write a review!</p>
+                            <Link to="/write" state={ currState } className="inline-block mt-6 text-purple-500 hover:text-purple-700">Worked here before? Click here to write a review!</Link>
                         </div>
                         <p className="border-t-2 border-white h-3"></p>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
@@ -155,26 +148,6 @@ const Employer = () => {
             </div>
         </section>
     )
-}
-
-const getData = async () => {
-    const db = getFirestore();
-    const colRef = collection(db, "employer");
-    try {
-        onSnapshot(colRef, docsSnap => {
-            docsSnap.forEach(doc => {
-                console.log(doc.data());
-                const city = doc.get("city");
-                const name = doc.get("employerName");
-                const rating = doc.get("rating");
-                const state = doc.get("state");
-                const address = doc.get("streetAddress");
-                const zip = doc.get("zipCode");
-            })
-        })
-    } catch (error) {
-        console.log(error);
-    }
 }
 
 export default Employer;

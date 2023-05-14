@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { mcdonalds } from "../assets";
 import { Filter, SearchCard } from "../components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import { onAuthStateChanged, getAuth } from 'firebase/auth';
@@ -11,6 +11,7 @@ import { onAuthStateChanged, getAuth } from 'firebase/auth';
 const SearchPage = () => {
     const { state } = useLocation();
     const auth = getAuth();
+    const navigate = useNavigate();
     const [data, setData] = useState([{}]);
     const [newData, setNewData] = useState([])
     const [currCity, setCurrCity] = useState();
@@ -25,6 +26,7 @@ const SearchPage = () => {
                     rating: doc.data().rating,
                     city: doc.data().city,
                     state: doc.data().state,
+                    id: doc.id
                 }
             ));
             setData(buffer);
@@ -46,12 +48,15 @@ const SearchPage = () => {
         if (data.length > 1) {
             data.forEach(e => {
                 if (e.city === currCity && e.state === currState) {
-                    
                     setNewData(prevData => [...prevData, e]);
                 }
             })
         }
     }, [data])
+
+    const parentCallback = (name, addr, rating, desc, id) => {
+        navigate("/employer", { state : { name: name, addr: addr, rating: rating, desc: desc, id: id }});
+    }
 
     return (
         <section className='min-h-screen pt-20 px-10 pb-5 md:px-2'>
@@ -88,11 +93,13 @@ const SearchPage = () => {
                     newData.map((employer, index) => {
                         return (
                             <SearchCard img={mcdonalds} 
+                                id={employer.id}
                                 alt="image of employer" 
                                 employer={employer.name}
                                 address={employer.addr}
-                                score={employer.rating}            
-                                key={index}      
+                                score={employer.rating} 
+                                parentCallback={parentCallback}        
+                                key={index}
                             />
                         )
                     })
