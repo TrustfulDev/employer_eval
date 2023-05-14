@@ -48,3 +48,16 @@ export const createEmployer = async (employer) => {
     rating: employer.rating
   })
 }
+
+export const createReview = async (review) => {
+  await addDoc(collection(db, 'review'), {
+    payRating: review.payRating,
+    difficultyRating: review.difficultyRating,
+    enjoymentRating: review.enjoymentRating,
+    flexibilityRating: review.flexibilityRating,
+    lifeWorkRating: review.lifeWorkRating,
+    cultureRating: review.cultureRatine,
+    diversityRating: review.diversityRating,
+    comments: review.comments
+  })
+}

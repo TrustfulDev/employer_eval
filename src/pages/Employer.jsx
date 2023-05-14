@@ -38,8 +38,8 @@ const data = {
       {
         label: '# of Votes',
         data: [1, 2, 3, 4, 5, 1, 2],
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgba(255, 99, 132, 1)',
+        backgroundColor: 'rgba(141, 118, 232, 0.2)',
+        borderColor: 'rgba(171, 118, 232, 1)',
         borderWidth: 1,
       },
     ],
