@@ -23,7 +23,7 @@ const CreateEmployer = () => {
     const handleCreate = (e) => {
         e.preventDefault();
         createEmployer(employerInfo);
-        navigate('/search');
+        navigate('/');
     }
 
     return (
