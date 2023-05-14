@@ -1,12 +1,17 @@
 import { getFirestore, collection, doc, getDocs, onSnapshot } from "firebase/firestore";
 import React, {useState, useEffect} from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { StarRating } from "../components";
 import { createBg } from '../assets';
-import { useNavigate } from 'react-router';
-import { createReview} from '../firebase';
+import { createReview } from '../firebase';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const WriteReview = () => {
+    const location = useLocation();
+    const currState = location.state;
+    console.log(currState);
+
+    const auth = getAuth();
     const navigate = useNavigate();
     const [reviewInfo, setReviewInfo] = useState({
         payRating: 0,
@@ -16,7 +21,9 @@ const WriteReview = () => {
         lifeWorkRating: 0,
         cultureRating: 0,
         diversityRating: 0,
-        comments: ''
+        comments: '',
+        employerID: "",
+        userID: "",
     });
 
     // Handles input changes
@@ -37,6 +44,15 @@ const WriteReview = () => {
         createReview(reviewInfo);
         navigate('/');
     }
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {     // User is signed in
+              setReviewInfo(prevData => ({ ...prevData, "userId": user.uid}));
+              setReviewInfo(prevData => ({ ...prevData, "employerId": currState.id }));
+            }
+          });
+    }, [])
 
     return (
         <div className='min-h-screen relative'>
