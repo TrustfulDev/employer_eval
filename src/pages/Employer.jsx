@@ -8,7 +8,7 @@ import {
     Legend,
   } from 'chart.js';
 import { Radar } from 'react-chartjs-2';
-
+import { db } from '../firebase';
 import { getFirestore, collection, doc, getDocs, onSnapshot } from "firebase/firestore";
 import React, {useState, useEffect} from "react";
 import { ScoreCircle } from "../components";
@@ -23,19 +23,6 @@ ChartJS.register(
     Tooltip,
     Legend
   );
-
-const data = {
-    labels: ['Difficulty', 'Enjoyment', 'Flexibility', 'Life-Work Balance', 'Culture', 'Diversity', 'Pay'],
-    datasets: [
-      {
-        label: '# of Votes',
-        data: [1, 2, 3, 4, 5, 1, 2],
-        backgroundColor: 'rgba(141, 118, 232, 0.2)',
-        borderColor: 'rgba(171, 118, 232, 1)',
-        borderWidth: 1,
-      },
-    ],
-};
 
 const options = {
     plugins: {
@@ -72,7 +59,107 @@ const options = {
 const Employer = () => {
     const location = useLocation();
     const currState = location.state;
-    console.log(currState);
+    const [data, setData] = useState([{}]);
+    const [avgRating, setAvgRating] = useState([]);
+    const [reviewData, setReviewData] = useState(null);
+
+    const calculateAvgRatings = () => {
+        let paySum = 0;
+        let difficultySum = 0;
+        let enjoymentSum = 0;
+        let flexibilitySum = 0;
+        let lifeWorkSum = 0;
+        let cultureSum = 0;
+        let diversitySum = 0;
+        let items = data.length;
+        data.forEach((item) => {
+          paySum += item.payRating;
+          difficultySum += item.difficultyRating;
+          enjoymentSum += item.enjoymentRating;
+          flexibilitySum += item.flexibilityRating;
+          lifeWorkSum += item.lifeWorkRating;
+          cultureSum += item.cultureRating;
+          diversitySum += item.diversityRating;
+        });
+
+        const avgDifficultyRating = difficultySum / items;
+        const avgPayRating = paySum / items;
+        const avgEnjoymentRating = enjoymentSum / items;
+        const avgFlexibilityRating = flexibilitySum / items;
+        const avgLifeWorkRating = lifeWorkSum / items;
+        const avgCultureRating = cultureSum / items;
+        const avgDiversityRating = diversitySum / items;
+
+        return [
+            avgDifficultyRating,
+            avgEnjoymentRating,
+            avgFlexibilityRating,
+            avgLifeWorkRating,
+            avgCultureRating,
+            avgDiversityRating,
+            avgPayRating,
+        ];
+
+    };
+
+    const calculateAvgRating = () => {
+        let x = calculateAvgRatings();
+        let sum = 0;
+        let length = x.length;
+        x.forEach((item) => {
+            sum += item
+        });
+        const temp = sum / length;
+        const avgRating = Number(temp.toFixed(1));
+        return avgRating;
+    }
+    
+    currState.rating = calculateAvgRating();
+
+    useEffect(()=>{
+        const fetchReviews = async () => {
+            await getDocs(collection(db, "review"))
+            .then((querysnapshot) => {
+                const buffer = querysnapshot.docs
+                    .filter((doc) => doc.data().employerID === currState.id)
+                    .map((doc) => ({
+                        payRating: doc.data().payRating,
+                        difficultyRating: doc.data().difficultyRating,
+                        enjoymentRating: doc.data().enjoymentRating,
+                        flexibilityRating: doc.data().flexibilityRating,
+                        lifeWorkRating: doc.data().lifeWorkRating,
+                        cultureRating: doc.data().cultureRating,
+                        diversityRating: doc.data().diversityRating,
+                        comments: doc.data().comments,
+                        userID: doc.data().userID,
+                    }));
+                    setData(buffer);
+            })
+        }
+        fetchReviews();
+    }, []);
+
+    useEffect(()=>{
+        const avgRating = calculateAvgRatings();
+        setAvgRating(avgRating);
+    }, [data]);
+
+    useEffect(()=> {
+        console.log(avgRating);
+        let reviewData = {
+            labels: ['Difficulty', 'Enjoyment', 'Flexibility', 'Life-Work Balance', 'Culture', 'Diversity', 'Pay'],
+            datasets: [
+            {
+                label: 'Rating',
+                data: avgRating,
+                backgroundColor: 'rgba(141, 118, 232, 0.2)',
+                borderColor: 'rgba(171, 118, 232, 1)',
+                borderWidth: 1,
+            },
+            ],
+        }
+        setReviewData(reviewData);
+    }, [avgRating]);
 
     return (
         <section className="min-h-screen pt-20 px-10 pb-5 md:px-2">
@@ -120,7 +207,11 @@ const Employer = () => {
                         </div>
                         <p className="border-t-2 border-white"></p>
                         <div className="w-[400px] h-[400px] mx-auto">
-                            <Radar data={data} options={options} />
+                            {reviewData ? (
+                                <Radar data={reviewData} options={options} />
+                                ) : (
+                                <p>Loading review data...</p>
+                            )}
                         </div>
                     </div>
                 </div>

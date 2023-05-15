@@ -42,7 +42,7 @@ const WriteReview = () => {
     const handleCreate = (e) => {
         e.preventDefault();
         createReview(reviewInfo);
-        navigate('/employer');
+        navigate("/");
     }
 
     useEffect(() => {
