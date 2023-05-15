@@ -11,7 +11,7 @@ import { Radar } from 'react-chartjs-2';
 import { db } from '../firebase';
 import { getFirestore, collection, doc, getDocs, onSnapshot } from "firebase/firestore";
 import React, {useState, useEffect} from "react";
-import { ScoreCircle } from "../components";
+import { ScoreCircle, ReviewBox } from "../components";
 import { Link, useLocation } from "react-router-dom";
 import { mcdonalds } from "../assets";
 
@@ -145,7 +145,6 @@ const Employer = () => {
     }, [data]);
 
     useEffect(()=> {
-        console.log(avgRating);
         let reviewData = {
             labels: ['Difficulty', 'Enjoyment', 'Flexibility', 'Life-Work Balance', 'Culture', 'Diversity', 'Pay'],
             datasets: [
@@ -233,7 +232,26 @@ const Employer = () => {
                             <Link to="/write" state={ currState } className="inline-block mt-6 text-purple-500 hover:text-purple-700">Worked here before? Click here to write a review!</Link>
                         </div>
                         <p className="border-t-2 border-white h-3"></p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <div className='flex flex-wrap mt-4 gap-6 justify-center'>
+                            { data.length === 0 ? "" :
+                                data.map((review, index) => {
+                                    return (
+                                        <ReviewBox
+                                            payRating={review.payRating}
+                                            difficultyRating={review.difficultyRating}
+                                            enjoymentRating={review.enjoymentRating}
+                                            flexibilityRating={review.flexibilityRating}
+                                            lifeWorkRating={review.lifeWorkRating}
+                                            cultureRating={review.cultureRating}
+                                            diversityRating={review.diversityRating}
+                                            comments={review.comments}
+                                            userID={review.userID}
+                                        />
+                                    )
+                                })
+                            }
+                        </div>
+                        
                     </div>
                 </div>
             </div>

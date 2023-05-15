@@ -24,6 +24,8 @@ const WriteReview = () => {
         comments: '',
         employerID: "",
         userID: "",
+        firstName: "",
+        lastName: "",
     });
 
     // Handles input changes
@@ -98,7 +100,7 @@ const WriteReview = () => {
                 <div className='flex flex-col mb-4'>
                     <label htmlFor='streetAddress'>Culture</label>
                     <div className="mt-2">
-                        <StarRating onRatingChange={(rating) => handleRatingChange(rating, 'cultlureRating')}/>
+                        <StarRating onRatingChange={(rating) => handleRatingChange(rating, 'cultureRating')}/>
                     </div>
                 </div>
 
