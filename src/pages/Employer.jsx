@@ -162,28 +162,26 @@ const Employer = () => {
 
     return (
         <section className="min-h-screen pt-20 px-10 pb-5 md:px-2">
-            <div className="grid grid-cols-2 grid-rows-2 gap-4 h-full">
-                <div className="">
-                    <div className="mt-3">
-                        <div className="mb-5">
-                            <h1 className="text-5xl inline-block">
-                                {currState.name}
-                            </h1>
-                            <p className="inline-block ml-4">{currState.addr}</p>
+            <div className="grid grid-cols-2 gap-4 h-full">
+                <div className="mt-3">
+                    <div className="mb-5">
+                        <h1 className="text-5xl inline-block">
+                            {currState.name}
+                        </h1>
+                        <p className="inline-block ml-4">{currState.addr}</p>
+                    </div>
+                    <div className="flex bg-white">
+                        <div className="">
+                            <img src={mcdonalds} alt="" className="rounded-[20px] max-w-[500px] h-full object-cover border-2 border-white-300"/>
                         </div>
-                        <div className="flex bg-white">
-                            <div className="">
-                                <img src={mcdonalds} alt="" className="rounded-[20px] max-w-[500px] h-full object-cover border-2 border-white-300"/>
-                            </div>
-                            <div className="flex flex-col w-1/6">
-                                <img src={mcdonalds} alt="" className="rounded-[15px] aspect-square object-cover mb-4 w-[100px] h-[100px] border-2 border-white-300" />
-                                <img src={mcdonalds} alt="" className="rounded-[15px] aspect-square object-cover mb-4 w-[100px] h-[100px] border-2 border-white-300" />
-                                <div className="relative">
-                                    <div className="rounded-[15px] w-[100px] h-[100px] border-2 border-white-300">
-                                        <img src={mcdonalds} alt="" className="rounded-[15px] aspect-square object-cover w-[100px] h-[100px] blur-sm"/>
-                                        <div className="absolute inset-0 mr-2 flex items-center justify-center">
-                                            <p className="text-white text-lg font-bold">More</p>
-                                        </div>
+                        <div className="flex flex-col w-1/6">
+                            <img src={mcdonalds} alt="" className="rounded-[15px] aspect-square object-cover mb-4 w-[100px] h-[100px] border-2 border-white-300" />
+                            <img src={mcdonalds} alt="" className="rounded-[15px] aspect-square object-cover mb-4 w-[100px] h-[100px] border-2 border-white-300" />
+                            <div className="relative">
+                                <div className="rounded-[15px] w-[100px] h-[100px] border-2 border-white-300">
+                                    <img src={mcdonalds} alt="" className="rounded-[15px] aspect-square object-cover w-[100px] h-[100px] blur-sm"/>
+                                    <div className="absolute inset-0 mr-2 flex items-center justify-center">
+                                        <p className="text-white text-lg font-bold">More</p>
                                     </div>
                                 </div>
                             </div>
@@ -191,68 +189,62 @@ const Employer = () => {
                     </div>
                 </div>
                 <div className="">
-                    <div className="">
+                    <h1 className="text-4xl mb-2 inline-block">
+                        Employer Score: 
+                    </h1>
+                    <div className="inline-block ml-4 mb-3">
+                        { 
+                            <ScoreCircle
+                                employer={currState.employer}
+                                address={currState.addr}
+                                score={currState.rating}
+                            />
+                        }
+                    </div>
+                    <p className="border-t-2 border-white"></p>
+                    <div className="w-[400px] h-[400px] mx-auto">
+                        {reviewData ? (
+                            <Radar data={reviewData} options={options} />
+                            ) : (
+                            <p>Loading review data...</p>
+                        )}
+                    </div>
+                </div>
+                <div className = "">
+                    <h1 className="text-4xl mb-2">
+                        Details
+                    </h1>
+                    <p className="border-t-2 border-white h-3"></p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+                <div className="">
+                    <div className="flex justify-between">
                         <h1 className="text-4xl mb-2 inline-block">
-                            Employer Score: 
+                            Reviews
                         </h1>
-                        <div className="inline-block ml-4 mb-3">
-                            { 
-                                <ScoreCircle
-                                    employer={currState.employer}
-                                    address={currState.addr}
-                                    score={currState.rating}
-                                />
-                            }
-                        </div>
-                        <p className="border-t-2 border-white"></p>
-                        <div className="w-[400px] h-[400px] mx-auto">
-                            {reviewData ? (
-                                <Radar data={reviewData} options={options} />
-                                ) : (
-                                <p>Loading review data...</p>
-                            )}
-                        </div>
+                        <Link to="/write" state={ currState } className="inline-block mt-6 text-purple-500 hover:text-purple-700">Worked here before? Click here to write a review!</Link>
                     </div>
-                </div>
-                <div className="">
-                    <div className = "">
-                        <h1 className="text-4xl mb-2">
-                            Details
-                        </h1>
-                        <p className="border-t-2 border-white h-3"></p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <p className="border-t-2 border-white h-3"></p>
+                    <div className='flex flex-wrap mt-4 gap-6 justify-center'>
+                        { data.length === 0 ? "" :
+                            data.map((review, index) => {
+                                return (
+                                    <ReviewBox
+                                        payRating={review.payRating}
+                                        difficultyRating={review.difficultyRating}
+                                        enjoymentRating={review.enjoymentRating}
+                                        flexibilityRating={review.flexibilityRating}
+                                        lifeWorkRating={review.lifeWorkRating}
+                                        cultureRating={review.cultureRating}
+                                        diversityRating={review.diversityRating}
+                                        comments={review.comments}
+                                        userID={review.userID}
+                                    />
+                                )
+                            })
+                        }
                     </div>
-                </div>
-                <div className="">
-                    <div className="">
-                        <div className="flex justify-between">
-                            <h1 className="text-4xl mb-2 inline-block">
-                                Reviews
-                            </h1>
-                            <Link to="/write" state={ currState } className="inline-block mt-6 text-purple-500 hover:text-purple-700">Worked here before? Click here to write a review!</Link>
-                        </div>
-                        <p className="border-t-2 border-white h-3"></p>
-                        <div className='flex flex-wrap mt-4 gap-6 justify-center'>
-                            { data.length === 0 ? "" :
-                                data.map((review, index) => {
-                                    return (
-                                        <ReviewBox
-                                            payRating={review.payRating}
-                                            difficultyRating={review.difficultyRating}
-                                            enjoymentRating={review.enjoymentRating}
-                                            flexibilityRating={review.flexibilityRating}
-                                            lifeWorkRating={review.lifeWorkRating}
-                                            cultureRating={review.cultureRating}
-                                            diversityRating={review.diversityRating}
-                                            comments={review.comments}
-                                            userID={review.userID}
-                                        />
-                                    )
-                                })
-                            }
-                        </div>
-                        
-                    </div>
+                    
                 </div>
             </div>
         </section>
