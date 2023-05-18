@@ -13,9 +13,50 @@ const SearchPage = () => {
     const auth = getAuth();
     const navigate = useNavigate();
     const [data, setData] = useState([{}]);
-    const [newData, setNewData] = useState([])
+    const [newData, setNewData] = useState([]);
+    const [reviewsData, setReviewsData] = useState([{}]);
     const [currCity, setCurrCity] = useState();
     const [currState, setCurrState] = useState();
+
+    const calculateAvgRatings = () => {
+        newData.forEach((item) => {
+            const matchingReviews = reviewsData.filter((review) => review.employerID === item.id);
+          
+            if (matchingReviews.length > 0) {
+                let paySum = 0;
+                let difficultySum = 0;
+                let enjoymentSum = 0;
+                let flexibilitySum = 0;
+                let lifeWorkSum = 0;
+                let cultureSum = 0;
+                let diversitySum = 0;
+            
+                matchingReviews.forEach((review) => {
+                    paySum += review.payRating;
+                    difficultySum += review.difficultyRating;
+                    enjoymentSum += review.enjoymentRating;
+                    flexibilitySum += review.flexibilityRating;
+                    lifeWorkSum += review.lifeWorkRating;
+                    cultureSum += review.cultureRating;
+                    diversitySum += review.diversityRating;
+                });
+            
+                const averagePayRating = paySum / matchingReviews.length;
+                const averageDifficultyRating = difficultySum / matchingReviews.length;
+                const averageEnjoymentRating = enjoymentSum / matchingReviews.length;
+                const averageFlexibilityRating = flexibilitySum / matchingReviews.length;
+                const averageLifeWorkRating = lifeWorkSum / matchingReviews.length;
+                const averageCultureRating = cultureSum / matchingReviews.length;
+                const averageDiversityRating = diversitySum / matchingReviews.length;
+
+                let sum = averagePayRating + averageDifficultyRating + averageEnjoymentRating + averageFlexibilityRating + averageLifeWorkRating + averageCultureRating + averageDiversityRating;
+                let temp = sum / 7;
+                const avgRating = Number(temp.toFixed(1));
+                item.rating = avgRating;
+            }
+          });
+
+    };
 
     const fetchEmployers = async () => {
         await getDocs(collection(db, "employer"))
@@ -33,6 +74,27 @@ const SearchPage = () => {
         })
     }
 
+    const fetchReviews = async () => {
+        await getDocs(collection(db, "review"))
+            .then((querysnapshot) => {
+                const buffer = querysnapshot.docs
+                    .filter((doc) => doc.data().employerID)
+                    .map((doc) => ({
+                        payRating: doc.data().payRating,
+                        difficultyRating: doc.data().difficultyRating,
+                        enjoymentRating: doc.data().enjoymentRating,
+                        flexibilityRating: doc.data().flexibilityRating,
+                        lifeWorkRating: doc.data().lifeWorkRating,
+                        cultureRating: doc.data().cultureRating,
+                        diversityRating: doc.data().diversityRating,
+                        comments: doc.data().comments,
+                        employerID: doc.data().employerID,
+                        userID: doc.data().userID,
+                    }));
+                    setReviewsData(buffer);
+        })
+    }
+
     useEffect(()=>{
         let buffer = state.value.split(',');
         setCurrCity(buffer[0]);
@@ -40,6 +102,7 @@ const SearchPage = () => {
         onAuthStateChanged(auth, (user) => {
             if (user) {     // User is signed in
               fetchEmployers();
+              fetchReviews();
             }
         });
     }, []);
@@ -53,6 +116,7 @@ const SearchPage = () => {
             })
         }
     }, [data])
+    calculateAvgRatings();
 
     const parentCallback = (name, addr, rating, desc, id) => {
         navigate("/employer", { state : { name: name, addr: addr, rating: rating, desc: desc, id: id }});

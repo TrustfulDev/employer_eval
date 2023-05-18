@@ -112,20 +112,6 @@ const Employer = () => {
 
     };
 
-    const calculateAvgRating = () => {
-        let x = calculateAvgRatings();
-        let sum = 0;
-        let length = x.length;
-        x.forEach((item) => {
-            sum += item
-        });
-        const temp = sum / length;
-        const avgRating = Number(temp.toFixed(1));
-        return avgRating;
-    }
-    
-    currState.rating = calculateAvgRating();
-
     useEffect(()=>{
         const fetchReviews = async () => {
             await getDocs(collection(db, "review"))
@@ -145,7 +131,6 @@ const Employer = () => {
                         avgScore: 0,
                     }));
                     setData(buffer);
-                    console.log(buffer);
             })
         }
         fetchReviews();
