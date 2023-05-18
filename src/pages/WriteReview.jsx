@@ -9,7 +9,6 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 const WriteReview = () => {
     const location = useLocation();
     const currState = location.state;
-    console.log(currState);
 
     const auth = getAuth();
     const navigate = useNavigate();

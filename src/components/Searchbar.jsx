@@ -36,7 +36,7 @@ const Searchbar = () => {
             <p className={ isEmpty ? "text-red-300" : "hidden"}>THIS FIELD CAN NOT BE LEFT EMPTY!</p>
             <input
                 type="search"
-                placeholder="Search employer"
+                placeholder="Enter a city and state"
                 className='w-full rounded px-4 py-2.5 bg-white text-gray-900'
                 ref={inputRef}
             />
