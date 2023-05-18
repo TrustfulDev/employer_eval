@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app";
 import {initializeAppCheck, ReCaptchaV3Provider} from "firebase/app-check"
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
-import { getFirestore, collection, doc, addDoc } from "firebase/firestore";
+import { getFirestore, collection, doc, addDoc, getDocs } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -58,5 +58,20 @@ export const createEmployer = async (employer) => {
     state: employer.state,
     zipCode: employer.zipCode,
     rating: employer.rating
+  })
+}
+
+export const createReview = async (review) => {
+  await addDoc(collection(db, 'review'), {
+    payRating: review.payRating,
+    difficultyRating: review.difficultyRating,
+    enjoymentRating: review.enjoymentRating,
+    flexibilityRating: review.flexibilityRating,
+    lifeWorkRating: review.lifeWorkRating,
+    cultureRating: review.cultureRating,
+    diversityRating: review.diversityRating,
+    comments: review.comments,
+    employerID: review.employerId,
+    userID: review.userId,
   })
 }

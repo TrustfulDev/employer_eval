@@ -14,3 +14,7 @@ A review site which allows job hunters to assign ratings to employers/jobs
 - Tailwind
 - @headlessui/react
 - @heroicons/react
+- @fortawesome/react-fontawesome
+- chart.js
+- react-chartjs-2
+- @mui/material @emotion/react @emotion/styled

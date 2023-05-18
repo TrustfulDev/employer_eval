@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { mcdonalds } from "../assets";
 import { Filter, SearchCard } from "../components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import { onAuthStateChanged, getAuth } from 'firebase/auth';
@@ -11,10 +11,52 @@ import { onAuthStateChanged, getAuth } from 'firebase/auth';
 const SearchPage = () => {
     const { state } = useLocation();
     const auth = getAuth();
+    const navigate = useNavigate();
     const [data, setData] = useState([{}]);
-    const [newData, setNewData] = useState([])
+    const [newData, setNewData] = useState([]);
+    const [reviewsData, setReviewsData] = useState([{}]);
     const [currCity, setCurrCity] = useState();
     const [currState, setCurrState] = useState();
+
+    const calculateAvgRatings = () => {
+        newData.forEach((item) => {
+            const matchingReviews = reviewsData.filter((review) => review.employerID === item.id);
+          
+            if (matchingReviews.length > 0) {
+                let paySum = 0;
+                let difficultySum = 0;
+                let enjoymentSum = 0;
+                let flexibilitySum = 0;
+                let lifeWorkSum = 0;
+                let cultureSum = 0;
+                let diversitySum = 0;
+            
+                matchingReviews.forEach((review) => {
+                    paySum += review.payRating;
+                    difficultySum += review.difficultyRating;
+                    enjoymentSum += review.enjoymentRating;
+                    flexibilitySum += review.flexibilityRating;
+                    lifeWorkSum += review.lifeWorkRating;
+                    cultureSum += review.cultureRating;
+                    diversitySum += review.diversityRating;
+                });
+            
+                const averagePayRating = paySum / matchingReviews.length;
+                const averageDifficultyRating = difficultySum / matchingReviews.length;
+                const averageEnjoymentRating = enjoymentSum / matchingReviews.length;
+                const averageFlexibilityRating = flexibilitySum / matchingReviews.length;
+                const averageLifeWorkRating = lifeWorkSum / matchingReviews.length;
+                const averageCultureRating = cultureSum / matchingReviews.length;
+                const averageDiversityRating = diversitySum / matchingReviews.length;
+
+                let sum = averagePayRating + averageDifficultyRating + averageEnjoymentRating + averageFlexibilityRating + averageLifeWorkRating + averageCultureRating + averageDiversityRating;
+                let temp = sum / 7;
+                const avgRating = Number(temp.toFixed(1));
+                item.rating = avgRating;
+            }
+          });
+
+    };
 
     const fetchEmployers = async () => {
         await getDocs(collection(db, "employer"))
@@ -25,9 +67,31 @@ const SearchPage = () => {
                     rating: doc.data().rating,
                     city: doc.data().city,
                     state: doc.data().state,
+                    id: doc.id
                 }
             ));
             setData(buffer);
+        })
+    }
+
+    const fetchReviews = async () => {
+        await getDocs(collection(db, "review"))
+            .then((querysnapshot) => {
+                const buffer = querysnapshot.docs
+                    .filter((doc) => doc.data().employerID)
+                    .map((doc) => ({
+                        payRating: doc.data().payRating,
+                        difficultyRating: doc.data().difficultyRating,
+                        enjoymentRating: doc.data().enjoymentRating,
+                        flexibilityRating: doc.data().flexibilityRating,
+                        lifeWorkRating: doc.data().lifeWorkRating,
+                        cultureRating: doc.data().cultureRating,
+                        diversityRating: doc.data().diversityRating,
+                        comments: doc.data().comments,
+                        employerID: doc.data().employerID,
+                        userID: doc.data().userID,
+                    }));
+                    setReviewsData(buffer);
         })
     }
 
@@ -38,6 +102,7 @@ const SearchPage = () => {
         onAuthStateChanged(auth, (user) => {
             if (user) {     // User is signed in
               fetchEmployers();
+              fetchReviews();
             }
         });
     }, []);
@@ -46,12 +111,16 @@ const SearchPage = () => {
         if (data.length > 1) {
             data.forEach(e => {
                 if (e.city === currCity && e.state === currState) {
-                    
                     setNewData(prevData => [...prevData, e]);
                 }
             })
         }
     }, [data])
+    calculateAvgRatings();
+
+    const parentCallback = (name, addr, rating, desc, id) => {
+        navigate("/employer", { state : { name: name, addr: addr, rating: rating, desc: desc, id: id }});
+    }
 
     return (
         <section className='min-h-screen pt-20 px-10 pb-5 md:px-2'>
@@ -88,11 +157,13 @@ const SearchPage = () => {
                     newData.map((employer, index) => {
                         return (
                             <SearchCard img={mcdonalds} 
+                                id={employer.id}
                                 alt="image of employer" 
                                 employer={employer.name}
                                 address={employer.addr}
-                                score={employer.rating}            
-                                key={index}      
+                                score={employer.rating} 
+                                parentCallback={parentCallback}        
+                                key={index}
                             />
                         )
                     })
