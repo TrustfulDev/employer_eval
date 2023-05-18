@@ -63,6 +63,16 @@ const Employer = () => {
     const [avgRating, setAvgRating] = useState([]);
     const [reviewData, setReviewData] = useState(null);
 
+    const calculateSingleAvgRating = () => {
+        data.forEach((item) => {
+            let sum = item.payRating + item.difficultyRating + item.enjoymentRating + item.flexibilityRating + item.lifeWorkRating + item.cultureRating + item.diversityRating;
+            let length = 7;
+            const temp = sum / length;
+            const avgRating = Number(temp.toFixed(1));
+            item.avgScore = avgRating;
+        });
+    }
+
     const calculateAvgRatings = () => {
         let paySum = 0;
         let difficultySum = 0;
@@ -132,8 +142,10 @@ const Employer = () => {
                         diversityRating: doc.data().diversityRating,
                         comments: doc.data().comments,
                         userID: doc.data().userID,
+                        avgScore: 0,
                     }));
                     setData(buffer);
+                    console.log(buffer);
             })
         }
         fetchReviews();
@@ -141,6 +153,7 @@ const Employer = () => {
 
     useEffect(()=>{
         const avgRating = calculateAvgRatings();
+        calculateSingleAvgRating();
         setAvgRating(avgRating);
     }, [data]);
 
@@ -239,6 +252,8 @@ const Employer = () => {
                                         diversityRating={review.diversityRating}
                                         comments={review.comments}
                                         userID={review.userID}
+                                        avgScore={review.avgScore}
+                                        currState={currState}
                                     />
                                 )
                             })
