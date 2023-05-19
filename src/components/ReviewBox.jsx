@@ -9,12 +9,13 @@ import { Link, useLocation } from "react-router-dom";
 import { blue } from '@mui/material/colors';
 
 const ReviewBox = ({payRating, difficultyRating, enjoymentRating, flexibilityRating, lifeWorkRating, cultureRating, diversityRating, comments, userID, avgScore, currState}) => {
+    // establishes variables that will be needed for component to function properly
     const [userData, setUserData] = useState([]);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [isLoading, setIsLoading] = useState(true);
-    const fetchUser = async () => {
-        await getDocs(collection(db, "user"))
+    const fetchUser = async () => { // fetches user information from Firebase
+        await getDocs(collection(db, "user")) // awaits for system to get documents from user collection in Firebase
             .then((querysnapshot) => {
                 const buffer = querysnapshot.docs
                 .filter((doc) => doc.data().uid === userID)
@@ -22,22 +23,22 @@ const ReviewBox = ({payRating, difficultyRating, enjoymentRating, flexibilityRat
                     firstName: doc.data().firstName,
                     lastName: doc.data().lastName
                 }));
-                setUserData(buffer);
+                setUserData(buffer); // stores user information in userData variable
         })
     }
 
-    useEffect(() => {
+    useEffect(() => { // calls fetchUser function whenever userID parameter changes
         fetchUser();
     }, [userID]);
     
-    useEffect(() => {
+    useEffect(() => { // gets first and last name of user to display
         if (userData.length > 0) {
           setFirstName(userData[0].firstName);
           setLastName(userData[0].lastName);
         }
     }, [userData]);
     useEffect(() => {
-        setIsLoading(false); // Mark loading as false when score data is available
+        setIsLoading(false); // Mark loading as false when score data is available, ensures score circle is correct color
       }, [
         payRating,
         difficultyRating,
@@ -73,10 +74,10 @@ const ReviewBox = ({payRating, difficultyRating, enjoymentRating, flexibilityRat
                     </div>
                 </div>
                 <div className="w-full px-2 mt-1 ml-3">
-                    <div className="grid grid-cols-4 grid-rows-2 gap-8">
+                    <div className="grid grid-cols-4 grid-rows-2 gap-8 relative xsm:grid-cols-3">
                         <div className='flex-cols'>
                             <p>Pay: </p> 
-                            {payRating !== null && typeof payRating !== 'undefined' ? (
+                            {payRating !== null && typeof payRating !== 'undefined' ? ( //displays star rating for payRating, if value of rating is null display 0 stars
                                 <Rating
                                     name="read-only"
                                     value={payRating}

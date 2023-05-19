@@ -1,12 +1,12 @@
-import { getFirestore, collection, doc, getDocs, onSnapshot } from "firebase/firestore";
 import React, {useState, useEffect} from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { StarRating } from "../components";
 import { createBg } from '../assets';
 import { createReview } from '../firebase';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const WriteReview = () => {
+    // establishes variables that will be needed for component to function properly
     const location = useLocation();
     const currState = location.state;
 
@@ -27,20 +27,20 @@ const WriteReview = () => {
         lastName: "",
     });
 
-    // Handles input changes
+    // Handles input changes (updates page based on user input)
     const inputChange = (e) => {
         const { name, value } = e.target;
         setReviewInfo(prev => ({ ...prev, [name]: value }));
     }
 
-    const handleRatingChange = (rating, category) => {
+    const handleRatingChange = (rating, category) => { // Handles rating changes
         setReviewInfo((prevReviewInfo) => ({
           ...prevReviewInfo,
           [category]: rating,
         }));
     };
 
-    const handleCreate = (e) => {
+    const handleCreate = (e) => { // Creates review document inside review collection in Firebase
         e.preventDefault();
         createReview(reviewInfo);
         navigate("/");
@@ -49,6 +49,7 @@ const WriteReview = () => {
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {     // User is signed in
+            //tracks userID and employerID inside review document for reference outside page
               setReviewInfo(prevData => ({ ...prevData, "userId": user.uid}));
               setReviewInfo(prevData => ({ ...prevData, "employerId": currState.id }));
             }
