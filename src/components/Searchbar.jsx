@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-
+import { getAuth } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 
 const Searchbar = () => {
     const navigate = useNavigate();
     const [isEmpty, setIsEmpty] = useState(false);
+    const auth = getAuth();
 
     const autoCompleteRef = useRef();
     const inputRef = useRef();
@@ -33,7 +34,7 @@ const Searchbar = () => {
 
     return (
         <form onSubmit={ handleSubmit } className="my-8">
-            <p className={ isEmpty ? "text-red-300" : "hidden"}>THIS FIELD CAN NOT BE LEFT EMPTY!</p>
+            <p className={ isEmpty ? "text-red-300" : "hidden"}>{ auth.currentUser === null ? "LOGIN TO SEARCH!" : "THIS FIELD CAN NOT BE LEFT EMPTY!"}</p>
             <input
                 type="search"
                 placeholder="Search employer"
