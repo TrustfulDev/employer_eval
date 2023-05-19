@@ -2,11 +2,11 @@ import { tulip } from "../assets";
 import { AiFillEdit } from "react-icons/ai"
 import { MdAccountBox } from "react-icons/md";
 import React, { useState, useEffect } from "react";
-import { onAuthStateChanged, signOut, getAuth } from "firebase/auth";
+import { onAuthStateChanged, getAuth } from "firebase/auth";
 import { db } from '../firebase';
-import { collection, getDocs, onSnapshot } from 'firebase/firestore';
-import { Link, useNavigate } from 'react-router-dom';
-import { ScoreCircle, ReviewBox, BookmarkBox } from "../components";
+import { collection, getDocs } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
+import { ReviewBox, BookmarkBox } from "../components";
 
 const Account = () => {
 
@@ -22,7 +22,6 @@ const handleTabClick = (tabName) => {
   const [lastName, setLastName] = useState([]);
   const [bookmark, setBookmark]  = useState([]);
   const [uid, setUID]  = useState([]);
-  const [reviewid, setReviewID]  = useState([]);
   const [currUser, setCurrUser] = useState("");
   const [currEmail, setCurrEmail] = useState("");
   const [allUsers, setAllUsers] = useState([{}]);
@@ -38,6 +37,7 @@ const handleTabClick = (tabName) => {
   const [userID, setuserID] = useState([]);
   const [bookmarks, setBookmarks] = useState(null);
 
+  // Runs immediately on start, finds the logged in user
   useEffect(()=>{
     onAuthStateChanged(auth, (user) => {
         if (user) {     // User is signed in
@@ -53,6 +53,7 @@ const handleTabClick = (tabName) => {
       });
     }, []);
 
+  // Fetches the user information
   const fetchName = async () => {
     await getDocs(collection(db, "user"))
       .then((querysnapshot) => {
@@ -70,6 +71,7 @@ const handleTabClick = (tabName) => {
       
   }
 
+  // Fetches the reviews corresponding to the user
   const fetchReview = async () => {
     await getDocs(collection(db, "review"))
       .then((querysnapshot) => {
@@ -91,10 +93,9 @@ const handleTabClick = (tabName) => {
         }));              
         setAllReviews(buffer);
       });
-
-      
   }
 
+  // Fetches the bookmarks corresopnding to the user
   const fetchBookmarks = async () => {
     await getDocs(collection(db, "bookmarks"))
       .then((querysnapshot) => {
@@ -109,11 +110,13 @@ const handleTabClick = (tabName) => {
       })
   }
 
+  // Used to refresh the bookmarks when one is removed
   const updateBook = () => {
     setBookmarks(null);
     fetchBookmarks();
   }
 
+  // Runs when allUsers or allReviews variable changes, sets the bookmarks and reviews
   useEffect(() => {
     if (allUsers.length > 1)
       allUsers.forEach(e => e.email.toLowerCase() === currEmail.toLowerCase() ? (setName(e.firstName), setLastName(e.lastName), setBookmark(e.bookmark), setUID(e.id)) : "");
@@ -227,12 +230,12 @@ const handleTabClick = (tabName) => {
         }
         
         {/* Left tulips */}
-        <img src={tulip} alt="tulip" className="absolute bottom-0 left-[256px] w-[183px] h-[180px] xl:w-[133px] xl:h-[130px] xl:left-24" />
-        <img src={tulip} alt="tulip" className="absolute bottom-0 left-[16px] w-[257px] h-[253px] opacity-10 xl:w-[207px] xl:h-[203px] xl:left-[-50px]" />
+        <img src={tulip} alt="tulip" className="absolute bottom-0 left-[256px] w-[183px] h-[180px] xl:w-[133px] xl:h-[130px] xl:left-24 pointer-events-none" />
+        <img src={tulip} alt="tulip" className="absolute bottom-0 left-[16px] w-[257px] h-[253px] opacity-10 xl:w-[207px] xl:h-[203px] xl:left-[-50px] pointer-events-none" />
 
         {/* Right tulips */}
-        <img src={tulip} alt="tulip" className="absolute bottom-0 right-28 w-[183px] h-[180px] xl:w-[133px] xl:h-[130px]" />
-        <img src={tulip} alt="tulip" className="absolute bottom-0 right-[-55px] w-[257px] h-[253px] opacity-10 xl:w-[207px] xl:h-[203px]" />
+        <img src={tulip} alt="tulip" className="absolute bottom-0 right-28 w-[183px] h-[180px] xl:w-[133px] xl:h-[130px] pointer-events-none" />
+        <img src={tulip} alt="tulip" className="absolute bottom-0 right-[-55px] w-[257px] h-[253px] opacity-10 xl:w-[207px] xl:h-[203px] pointer-events-none" />
 
     </div>
     )

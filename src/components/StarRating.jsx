@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import ReactDOM from 'react-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const StarRating = ({onRatingChange}) => {
     const [rating, setRating] = useState(0);
     const [hover, setHover] = useState(0);
 
+    // Updates the ui with changes made
     const handleRatingChange = (index) => {
       setRating(index);
       onRatingChange(index);
     };
 
+    // Resets rating by double clicking
     const handleDoubleClick = () => {
       setRating(0);
       setHover(0);

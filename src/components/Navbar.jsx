@@ -24,6 +24,7 @@ export default function Navbar() {
   const [currEmail, setCurrEmail] = useState('');
   const [allUsers, setAllUsers] = useState([{}]);
 
+  // Checks for a logged in user to change states
   useEffect(()=>{
     onAuthStateChanged(auth, (user) => {
         if (user) {     // User is signed in
@@ -38,6 +39,7 @@ export default function Navbar() {
       });
     }, []);
 
+  // Fetches the name of the user if they are logged in
   const fetchName = async () => {
     await getDocs(collection(db, "user"))
       .then((querysnapshot) => {
@@ -51,12 +53,14 @@ export default function Navbar() {
 
   }
 
+  // Runs to find the user's name by their id in the database
   useEffect(() => {
     if (allUsers.length > 1)
       allUsers.forEach(e => e.email.toLowerCase() === currEmail.toLowerCase() ? setName(e.firstName) : "");
     // setName(currEmail);
   }, [allUsers])
 
+  // Logs the user out
   const handleLogout = () => {
     signOut(auth).then(() => {
       // Sign-out successful.

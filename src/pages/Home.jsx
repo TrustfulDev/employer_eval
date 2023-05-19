@@ -1,11 +1,11 @@
 import { hero_illustration, bench, tulip, child_boy, child_girl, man_laptop, pin, woman_laptop } from "../assets";
 import { Searchbar, HomeCard } from "../components";
 import { useState, useEffect } from 'react';
-import { onAuthStateChanged, getAuth, setPersistence, browserSessionPersistence, signOut } from "firebase/auth";
-import { auth } from '../firebase';
+import { onAuthStateChanged, getAuth, setPersistence, browserSessionPersistence } from "firebase/auth";
 import { Link } from "react-router-dom";
 
 const Home = () => {
+    // Handles authentication check and keeps the user logged in even on refresh
     const [uid, setuid] = useState('')
     const auth = getAuth();
     setPersistence(auth, browserSessionPersistence);
@@ -40,8 +40,8 @@ const Home = () => {
                         }
                 </div>
 
-                <img src={bench} alt='A bench' className="absolute bottom-0 right-[354px] w-[236px] h-auto md:right-[184px] md:w-[136px]" />
-                <img src={tulip} alt='A tulip plant' className="absolute bottom-0 right-[130px] w-[183px] h-auto md:right-[20px] md:w-[200px]" />
+                <img src={bench} alt='A bench' className="absolute bottom-0 right-[354px] w-[236px] h-auto md:right-[184px] md:w-[136px] pointer-events-none" />
+                <img src={tulip} alt='A tulip plant' className="absolute bottom-0 right-[130px] w-[183px] h-auto md:right-[20px] md:w-[200px] pointer-events-none" />
             </section>
 
             <section id="join-us" className="min-h-screen h-full flex flex-col justify-center align-center px-4 relative lg:px-2 black-gradient">

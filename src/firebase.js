@@ -3,9 +3,7 @@ import { initializeApp } from "firebase/app";
 import {initializeAppCheck, ReCaptchaV3Provider} from "firebase/app-check"
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
-import { getFirestore, collection, doc, addDoc, getDocs } from "firebase/firestore";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -40,6 +38,7 @@ export const auth = getAuth(app);
 // Initialize Cloud Firestore and get a reference to the service
 export const db = getFirestore(app);
 
+// Below is all the create functions needed to add documents into the firebase collection
 export const createUser = async (user, userInfo) => {
   await addDoc(collection(db, 'user'), {
     uid: user,

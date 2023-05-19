@@ -8,7 +8,7 @@ import { Link, useNavigate } from 'react-router-dom'
 const Login = () => {
     const navigate = useNavigate();
 
-    // User Informationnpm
+    // User Information
     const [userInfo, setUserInfo] = useState({
         firstName: '',
         lastName: '',

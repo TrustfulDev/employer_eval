@@ -1,9 +1,14 @@
+// Import Routes and Components
 import { Routes, Route } from 'react-router-dom';
 import { Navbar } from "./components"
 
 // Import Pages
 import { Home, SignUp, Login, Account, SearchPage, CreateEmployer, Employer, WriteReview} from './pages';
 
+/* The main functional component that is rendered into the virtual DOM
+* Here, Routes are set up to determine which page is shown on the screen depending on the URL
+* The Navbar component is added before the Routes so that it shows up in every single route
+*/
 function App() {
   return (
     <div className="App">

@@ -12,6 +12,7 @@ const SearchCard = ({ id, img, alt, employer, address, score, parentCallback }) 
     const [allBookmarks, setAllBookmarks] = useState([{}])
     const auth = getAuth();
 
+    // Fetches the bookmarks corresponding to the user to change states
     const fetchBookmarks = async () => {
         await getDocs(collection(db, "bookmarks"))
             .then((querysnapshot) => {
@@ -23,6 +24,7 @@ const SearchCard = ({ id, img, alt, employer, address, score, parentCallback }) 
             })
     }
 
+    // Filters the bookmarks by the ones corresponding to the user only
     useEffect(() => {
         if (allBookmarks.length > 1) {
             allBookmarks.forEach(e => {
@@ -33,6 +35,7 @@ const SearchCard = ({ id, img, alt, employer, address, score, parentCallback }) 
         }
     }, [allBookmarks])
     
+    // Scoring logic to change the colors based on the ratings
     useEffect(() => {
         if (score <= 2) setColor("bg-red-400")
         else if (score >= 4) setColor("bg-green-400")
@@ -41,6 +44,7 @@ const SearchCard = ({ id, img, alt, employer, address, score, parentCallback }) 
         fetchBookmarks();
     }, []);
 
+    // Creates a new bookmark document in the database and changes state
     const handleBookmark = () => {
         createBookmark(id);
         setChecked(true);

@@ -7,10 +7,12 @@ import { HiBookmarkSlash } from "react-icons/hi2";
 const BookmarkBox = (props) => {
     const [realEmployer, setRealEmployer] = useState(null);
 
+    // Runs immediately on load, gets the employer
     useEffect(() => {
         getEmployer();
     }, [])
 
+    // Delete the bookmark from the database
     const handleDelete = () => {
         const ref = doc(db, "bookmarks", props.id);
         deleteDoc(ref)
@@ -19,6 +21,7 @@ const BookmarkBox = (props) => {
         })
     }
 
+    // Gets employer from database
     const getEmployer = async () => {
         await getDocs(collection(db, "employer"))
         .then((querysnapshot) => {
