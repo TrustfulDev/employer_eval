@@ -37,7 +37,7 @@ const ReviewBox = ({payRating, difficultyRating, enjoymentRating, flexibilityRat
     }, [userData]);
 
     return (
-        <div className="flex flex-wrap w-full h-full purple-backround rounded-[10px] relative xsm:w-[347px] xsm:h-[358px]">
+        <div className="flex flex-wrap w-full h-full black-gradient rounded-[10px] relative xsm:w-[347px] xsm:h-[358px]">
             <div className="grid grid-rows-2 gap-2">
                 <div className="flex items-center mt-5">
                     <div className="ml-3 inline-block">
@@ -47,7 +47,7 @@ const ReviewBox = ({payRating, difficultyRating, enjoymentRating, flexibilityRat
                     </div>
                     <div className="ml-4 inline-block">
                         <p className='text-[20px] font-bold'>{firstName} {lastName}</p>
-                        
+                                  
                     </div>
                     <div className="inline-block ml-4">
                         { 
