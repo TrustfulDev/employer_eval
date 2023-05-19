@@ -114,25 +114,6 @@ const handleTabClick = (tabName) => {
     fetchBookmarks();
   }
 
-  const fetchBookmarks = async () => {
-    await getDocs(collection(db, "bookmarks"))
-      .then((querysnapshot) => {
-        const buffer = querysnapshot.docs
-          .filter((doc) => doc.data().userID === String(currUser))
-          .map((doc) => ({
-            employerID: doc.data().employerID,
-            id: doc.id,
-          }));
-
-        setBookmarks(buffer);
-      })
-  }
-
-  const updateBook = () => {
-    setBookmarks(null);
-    fetchBookmarks();
-  }
-
   useEffect(() => {
     if (allUsers.length > 1)
       allUsers.forEach(e => e.email.toLowerCase() === currEmail.toLowerCase() ? (setName(e.firstName), setLastName(e.lastName), setBookmark(e.bookmark), setUID(e.id)) : "");
