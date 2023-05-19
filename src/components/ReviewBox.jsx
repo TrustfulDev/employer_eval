@@ -12,6 +12,7 @@ const ReviewBox = ({payRating, difficultyRating, enjoymentRating, flexibilityRat
     const [userData, setUserData] = useState([]);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
     const fetchUser = async () => {
         await getDocs(collection(db, "user"))
             .then((querysnapshot) => {
@@ -35,6 +36,17 @@ const ReviewBox = ({payRating, difficultyRating, enjoymentRating, flexibilityRat
           setLastName(userData[0].lastName);
         }
     }, [userData]);
+    useEffect(() => {
+        setIsLoading(false); // Mark loading as false when score data is available
+      }, [
+        payRating,
+        difficultyRating,
+        enjoymentRating,
+        flexibilityRating,
+        lifeWorkRating,
+        cultureRating,
+        diversityRating
+      ]);
 
     return (
         <div className="flex flex-wrap w-full h-full black-gradient rounded-[10px] relative xsm:w-[347px] xsm:h-[358px]">
@@ -50,14 +62,14 @@ const ReviewBox = ({payRating, difficultyRating, enjoymentRating, flexibilityRat
                                   
                     </div>
                     <div className="inline-block ml-4">
-                        { 
+                        {!isLoading && (
                             <ScoreCircle
                                 employer={currState.employer}
                                 address={currState.addr}
                                 score={avgScore}
                                 className="w-[20px] h-[20px]"
                             />
-                        }
+                        )}
                     </div>
                 </div>
                 <div className="w-full px-2 mt-1 ml-3">
