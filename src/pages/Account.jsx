@@ -36,7 +36,6 @@ const handleTabClick = (tabName) => {
   const [lifeWorkRating, setlifeWorkRating] = useState([]);
   const [payRating, setpayRating] = useState([]);
   const [userID, setuserID] = useState([]);
-
   const [bookmarks, setBookmarks] = useState(null);
 
   useEffect(()=>{
@@ -94,6 +93,25 @@ const handleTabClick = (tabName) => {
       });
 
       
+  }
+
+  const fetchBookmarks = async () => {
+    await getDocs(collection(db, "bookmarks"))
+      .then((querysnapshot) => {
+        const buffer = querysnapshot.docs
+          .filter((doc) => doc.data().userID === String(currUser))
+          .map((doc) => ({
+            employerID: doc.data().employerID,
+            id: doc.id,
+          }));
+
+        setBookmarks(buffer);
+      })
+  }
+
+  const updateBook = () => {
+    setBookmarks(null);
+    fetchBookmarks();
   }
 
   const fetchBookmarks = async () => {
