@@ -12,7 +12,6 @@ const ReviewBox = ({payRating, difficultyRating, enjoymentRating, flexibilityRat
     const [userData, setUserData] = useState([]);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    console.log(payRating, difficultyRating, enjoymentRating, flexibilityRating, lifeWorkRating, cultureRating, diversityRating);
     const fetchUser = async () => {
         await getDocs(collection(db, "user"))
             .then((querysnapshot) => {

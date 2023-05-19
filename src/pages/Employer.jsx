@@ -168,8 +168,8 @@ const Employer = () => {
                         </h1>
                         <p className="inline-block ml-4">{currState.addr}</p>
                     </div>
-                    <div className="flex bg-white">
-                        <div className="">
+                    <div className="flex">
+                        <div className="mr-4">
                             <img src={mcdonalds} alt="" className="rounded-[20px] max-w-[500px] h-full object-cover border-2 border-white-300"/>
                         </div>
                         <div className="flex flex-col w-1/6">
