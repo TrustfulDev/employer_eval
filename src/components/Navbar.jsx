@@ -116,7 +116,7 @@ export default function Navbar() {
                 <Menu as="div" className="relative">
                   <div className='flex justify-center items-center gap-5'>
                     <p className='md:hidden'>Welcome back, <span className='font-bold'>{name}</span></p>
-                    <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                    <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 w-auto">
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8 rounded-full"
