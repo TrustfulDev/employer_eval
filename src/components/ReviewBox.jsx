@@ -73,7 +73,7 @@ const ReviewBox = ({payRating, difficultyRating, enjoymentRating, flexibilityRat
                     </div>
                 </div>
                 <div className="w-full px-2 mt-1 ml-3">
-                    <div className="grid grid-cols-4 grid-rows-2 gap-8">
+                    <div className="grid grid-cols-4 grid-rows-2 gap-8 relative xsm:grid-cols-3">
                         <div className='flex-cols'>
                             <p>Pay: </p> 
                             {payRating !== null && typeof payRating !== 'undefined' ? (
