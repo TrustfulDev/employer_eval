@@ -227,12 +227,12 @@ const handleTabClick = (tabName) => {
         }
         
         {/* Left tulips */}
-        <img src={tulip} alt="tulip" className="absolute bottom-0 left-[256px] w-[183px] h-[180px] xl:w-[133px] xl:h-[130px] xl:left-24" />
-        <img src={tulip} alt="tulip" className="absolute bottom-0 left-[16px] w-[257px] h-[253px] opacity-10 xl:w-[207px] xl:h-[203px] xl:left-[-50px]" />
+        <img src={tulip} alt="tulip" className="absolute bottom-0 left-[256px] w-[183px] h-[180px] xl:w-[133px] xl:h-[130px] xl:left-24 pointer-events-none" />
+        <img src={tulip} alt="tulip" className="absolute bottom-0 left-[16px] w-[257px] h-[253px] opacity-10 xl:w-[207px] xl:h-[203px] xl:left-[-50px] pointer-events-none" />
 
         {/* Right tulips */}
-        <img src={tulip} alt="tulip" className="absolute bottom-0 right-28 w-[183px] h-[180px] xl:w-[133px] xl:h-[130px]" />
-        <img src={tulip} alt="tulip" className="absolute bottom-0 right-[-55px] w-[257px] h-[253px] opacity-10 xl:w-[207px] xl:h-[203px]" />
+        <img src={tulip} alt="tulip" className="absolute bottom-0 right-28 w-[183px] h-[180px] xl:w-[133px] xl:h-[130px] pointer-events-none" />
+        <img src={tulip} alt="tulip" className="absolute bottom-0 right-[-55px] w-[257px] h-[253px] opacity-10 xl:w-[207px] xl:h-[203px] pointer-events-none" />
 
     </div>
     )
