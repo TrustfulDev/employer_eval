@@ -1,11 +1,11 @@
 import { hero_illustration, bench, tulip, child_boy, child_girl, man_laptop, pin, woman_laptop } from "../assets";
 import { Searchbar, HomeCard } from "../components";
 import { useState, useEffect } from 'react';
-import { onAuthStateChanged, getAuth, setPersistence, browserSessionPersistence, signOut } from "firebase/auth";
-import { auth } from '../firebase';
+import { onAuthStateChanged, getAuth, setPersistence, browserSessionPersistence } from "firebase/auth";
 import { Link } from "react-router-dom";
 
 const Home = () => {
+    // Handles authentication check and keeps the user logged in even on refresh
     const [uid, setuid] = useState('')
     const auth = getAuth();
     setPersistence(auth, browserSessionPersistence);

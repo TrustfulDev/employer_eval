@@ -21,6 +21,7 @@ const SearchPage = () => {
     const [ratingFilter, setRatingFilter] = useState('Rating');
     const [filterEmployers, setFilterEmployers] = useState([]);
 
+    // Used to calculate the rating that is shown on the cards
     const calculateAvgRatings = () => {
         newData.forEach((item) => {
             const matchingReviews = reviewsData.filter((review) => review.employerID === item.id);
@@ -98,6 +99,7 @@ const SearchPage = () => {
         })
     }
 
+    // Runs immediately on to parse the search input (city, state)
     useEffect(()=>{
         let buffer = state.value.split(',');
         setCurrCity(buffer[0]);
@@ -110,6 +112,7 @@ const SearchPage = () => {
         });
     }, []);
 
+    // Runs when the ratingFilter variable is changed, sets the rating after calculations
     useEffect(()=>{
         setFilterEmployers([]); 
 
@@ -118,6 +121,7 @@ const SearchPage = () => {
 
     }, [ratingFilter]); 
 
+    // Runs whenever the data variable is changed, filters by the search result
     useEffect(() => {
         if (data.length > 1) {
             data.forEach(e => {
@@ -129,6 +133,7 @@ const SearchPage = () => {
     }, [data])
     calculateAvgRatings();
 
+    // Used to navigate the user to the corresponding employer page
     const parentCallback = (name, addr, rating, desc, id) => {
         navigate("/employer", { state : { name: name, addr: addr, rating: rating, desc: desc, id: id }});
     }

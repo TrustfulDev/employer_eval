@@ -1,3 +1,4 @@
+// Displays the boxes you see on the home page that talk about account creation
 const HomeCard = ({ title, img, alt, position }) => {
     return (
         <div className="w-[422px] h-[422px] card-gradient rounded-3xl py-[25px] px-[36px] relative 2xl:w-[340px] 2xl:h-[340px]">
