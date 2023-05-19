@@ -6,6 +6,8 @@ import { onAuthStateChanged, signOut, getAuth } from "firebase/auth";
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
+import { ScoreCircle, ReviewBox } from "../components";
+
 
 const Account = () => {
 
@@ -34,6 +36,7 @@ const handleTabClick = (tabName) => {
   const [flexibilityRating, setflexibilityRating] = useState([]);
   const [lifeWorkRating, setlifeWorkRating] = useState([]);
   const [payRating, setpayRating] = useState([]);
+  const [userID, setuserID] = useState([]);
 
 
   useEffect(()=>{
@@ -59,7 +62,7 @@ const handleTabClick = (tabName) => {
           firstName:doc.data().firstName,
           lastName:doc.data().lastName,
           bookmark:doc.data().bookmark,
-          id:doc.id 
+          id:doc.data().uid,
 
         }));              
         setAllUsers(buffer);
@@ -71,8 +74,11 @@ const handleTabClick = (tabName) => {
   const fetchReview = async () => {
     await getDocs(collection(db, "review"))
       .then((querysnapshot) => {
-        const bufferr = querysnapshot.docs.map((doc) => ({
-          userID:doc.userID, 
+        const buffer = querysnapshot.docs
+        .filter((doc) => doc.data().userID === uid)
+        .map((doc) => ({
+          userID:doc.data().userID, 
+          employerID:doc.data().employerID, 
           comments:doc.data().comments,
           cultureRating:doc.data().cultureRating,
           difficultyRating:doc.data().difficultyRating,
@@ -81,9 +87,10 @@ const handleTabClick = (tabName) => {
           flexibilityRating:doc.data().flexibilityRating,
           lifeWorkRating:doc.data().lifeWorkRating,
           payRating:doc.data().payRating,
+          avgScore : 0,
          
         }));              
-        setAllReviews(bufferr);
+        setAllReviews(buffer);
       });
 
       
@@ -93,7 +100,7 @@ const handleTabClick = (tabName) => {
     if (allUsers.length > 1)
       allUsers.forEach(e => e.email.toLowerCase() === currEmail.toLowerCase() ? (setName(e.firstName), setLastName(e.lastName), setBookmark(e.bookmark), setUID(e.id)) : "");
     if (allReviews.length > 1)
-      allReviews.forEach(a => a.userID === uid ? (setComments(a.comments), setcultureRating(a.cultureRating), setdifficultyRating(a.difficultyRating), setdiversityRating(a.diversityRating), setenjoymentRating(a.enjoymentRating), setflexibilityRating(a.flexibilityRating), setlifeWorkRating(a.flexibilityRating), setlifeWorkRating(a.lifeWorkRating), setpayRating(a.payRating)) : "");
+      allReviews.forEach(a => a.userID === uid ? (setuserID(a.userID), setComments(a.comments), setcultureRating(a.cultureRating), setdifficultyRating(a.difficultyRating), setdiversityRating(a.diversityRating), setenjoymentRating(a.enjoymentRating), setflexibilityRating(a.flexibilityRating), setlifeWorkRating(a.flexibilityRating), setlifeWorkRating(a.lifeWorkRating), setpayRating(a.payRating)) : "");
   }, [allUsers] [allReviews])
 
     return (
@@ -112,7 +119,7 @@ const handleTabClick = (tabName) => {
                 <div className="md:flex md:gap-4 md:mt-20 md:justify-center">
                     <h2 className={`ml-12 text-[28px] lg:text-[24px] md:ml-0 ${activeTab === "profile" ? "" : "text-gray-400"} hover:text-white cursor-pointer`} onClick={() => handleTabClick("profile")}> Profile </h2>
                     <h2 className={`ml-12 py-2 text-[28px] lg:text-[24px] md:ml-0 md:py-0 ${activeTab === "bookmarks" ? "" : "text-gray-400"} hover:text-white cursor-pointer`} onClick={() => handleTabClick("bookmarks")}> Bookmarks </h2>
-                    <h2 className={`ml-12 text-[28px] lg:text-[24px] md:ml-0 ${activeTab === "reviews" ? "" : "text-gray-400"} hover:text-white cursor-pointer`} onClick={() => handleTabClick("reviews")}> Reviews </h2>
+                    <h2 className={`ml-12 text-[28px] lg:text-[24px] md:ml-0 ${activeTab === "reviews" ? "" : "text-gray-400"} hover:text-white cursor-pointer`} onClick={() => {handleTabClick("reviews"); fetchReview();}}> Reviews </h2>
                 </div>
             </div>
         </div>
@@ -147,8 +154,45 @@ const handleTabClick = (tabName) => {
         }
         {activeTab === "reviews" && 
             <div className=" flex flex-col relative w-1/3 min-w-[355px] pt-32 gap-16 h-full md:pt-4">
-                <div className=" w-full h-full blackFlip-gradient rounded-3xl px-[3rem] py-[2rem]">
+                <div className=" w-full h-full purple-backround rounded-3xl px-[3rem] py-[2rem]">
                     <h1 className="text-3xl"> Your Reviews </h1>
+                    <div className="mt-6">
+                    { allReviews.length === 0 ? "" :
+                            allReviews
+                            .filter((review) => review.userID === uid)
+                            .map((review, index) => {
+                              const averageScore =
+                                (review.payRating +
+                                review.difficultyRating +
+                                review.enjoymentRating +
+                                review.flexibilityRating +
+                                review.lifeWorkRating +
+                                review.cultureRating +
+                                review.diversityRating) /
+                                7;
+                                return (
+                                  <div key={index} style={{ marginBottom: "1.5rem" }}>
+                                    <ReviewBox
+                                        
+                                        payRating={review.payRating}
+                                        difficultyRating={review.difficultyRating}
+                                        enjoymentRating={review.enjoymentRating}
+                                        flexibilityRating={review.flexibilityRating}
+                                        lifeWorkRating={review.lifeWorkRating}
+                                        cultureRating={review.cultureRating}
+                                        diversityRating={review.diversityRating}
+                                        comments={review.comments}
+                                        userID={review.userID}
+                                        avgScore={averageScore.toFixed(1)}
+                                        currState={""}
+                                        
+                                        
+                                    />
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
                 </div>
                 <div className="w-full h-full blackFlip-gradient rounded-3xl px-[3rem] py-[2rem]"></div>
                 <div className="w-full h-full blackFlip-gradient rounded-3xl px-[3rem] py-[2rem]"></div>
