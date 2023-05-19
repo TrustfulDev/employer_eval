@@ -4,10 +4,9 @@ import { MdAccountBox } from "react-icons/md";
 import React, { useState, useEffect } from "react";
 import { onAuthStateChanged, signOut, getAuth } from "firebase/auth";
 import { db } from '../firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, onSnapshot } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
-import { ScoreCircle, ReviewBox } from "../components";
-
+import { ScoreCircle, ReviewBox, BookmarkBox } from "../components";
 
 const Account = () => {
 
@@ -38,6 +37,7 @@ const handleTabClick = (tabName) => {
   const [payRating, setpayRating] = useState([]);
   const [userID, setuserID] = useState([]);
 
+  const [bookmarks, setBookmarks] = useState(null);
 
   useEffect(()=>{
     onAuthStateChanged(auth, (user) => {
@@ -96,6 +96,25 @@ const handleTabClick = (tabName) => {
       
   }
 
+  const fetchBookmarks = async () => {
+    await getDocs(collection(db, "bookmarks"))
+      .then((querysnapshot) => {
+        const buffer = querysnapshot.docs
+          .filter((doc) => doc.data().userID === String(currUser))
+          .map((doc) => ({
+            employerID: doc.data().employerID,
+            id: doc.id,
+          }));
+
+        setBookmarks(buffer);
+      })
+  }
+
+  const updateBook = () => {
+    setBookmarks(null);
+    fetchBookmarks();
+  }
+
   useEffect(() => {
     if (allUsers.length > 1)
       allUsers.forEach(e => e.email.toLowerCase() === currEmail.toLowerCase() ? (setName(e.firstName), setLastName(e.lastName), setBookmark(e.bookmark), setUID(e.id)) : "");
@@ -118,7 +137,7 @@ const handleTabClick = (tabName) => {
                 {/* Profile, bookmark, Reviews div */}
                 <div className="md:flex md:gap-4 md:mt-20 md:justify-center">
                     <h2 className={`ml-12 text-[28px] lg:text-[24px] md:ml-0 ${activeTab === "profile" ? "" : "text-gray-400"} hover:text-white cursor-pointer`} onClick={() => handleTabClick("profile")}> Profile </h2>
-                    <h2 className={`ml-12 py-2 text-[28px] lg:text-[24px] md:ml-0 md:py-0 ${activeTab === "bookmarks" ? "" : "text-gray-400"} hover:text-white cursor-pointer`} onClick={() => handleTabClick("bookmarks")}> Bookmarks </h2>
+                    <h2 className={`ml-12 py-2 text-[28px] lg:text-[24px] md:ml-0 md:py-0 ${activeTab === "bookmarks" ? "" : "text-gray-400"} hover:text-white cursor-pointer`} onClick={() => {handleTabClick("bookmarks"); fetchBookmarks();}}> Bookmarks </h2>
                     <h2 className={`ml-12 text-[28px] lg:text-[24px] md:ml-0 ${activeTab === "reviews" ? "" : "text-gray-400"} hover:text-white cursor-pointer`} onClick={() => {handleTabClick("reviews"); fetchReview();}}> Reviews </h2>
                 </div>
             </div>
@@ -145,7 +164,15 @@ const handleTabClick = (tabName) => {
             <div className=" flex flex-col relative w-1/3 min-w-[355px] pt-32 gap-16 h-full md:pt-4">
                 <div className=" w-full h-full blackFlip-gradient rounded-3xl px-[3rem] py-[2rem]">
                     <h1 className="text-3xl"> Bookmarked Employers </h1>
-                    <h2>{bookmark}</h2>
+                    {
+                      bookmarks !== null ? bookmarks.map((e, index) => {
+                        return (
+                          <BookmarkBox employer={e.employerID} id={e.id} parentCallback={updateBook} key={index} />
+                        )
+                      })
+                      :
+                      <h1 className="text-xl mt-4">Nothing Here!</h1>
+                    }
                 </div>
                 <div className="w-full h-full blackFlip-gradient rounded-3xl px-[3rem] py-[2rem]"></div>
                 <div className="w-full h-full blackFlip-gradient rounded-3xl px-[3rem] py-[2rem]"></div>

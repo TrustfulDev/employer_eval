@@ -77,7 +77,6 @@ export const createReview = async (review) => {
 }
 
 export const createBookmark = async (employerId) => {
-  console.log(employerId);
   await addDoc(collection(db, 'bookmarks'), {
     userID: auth.currentUser.uid,
     employerID: employerId,

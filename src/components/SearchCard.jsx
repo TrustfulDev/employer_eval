@@ -43,6 +43,7 @@ const SearchCard = ({ id, img, alt, employer, address, score, parentCallback }) 
 
     const handleBookmark = () => {
         createBookmark(id);
+        setChecked(true);
     }
 
     return (
