@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { mcdonalds } from "../assets";
-import { Filter, SearchCard } from "../components";
+import {  SearchCard } from "../components";
 import { Link, useNavigate } from "react-router-dom";
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
@@ -113,7 +113,7 @@ const SearchPage = () => {
         setFilterEmployers([]); 
 
         ratingFilter === "All" ? setFilterEmployers(newData) :
-        setFilterEmployers(newData.filter(employer => (Math.floor(employer.rating) == ratingFilter))); 
+        setFilterEmployers(newData.filter(employer => (Math.floor(employer.rating) === Number(ratingFilter)))); 
 
     }, [ratingFilter]); 
 
