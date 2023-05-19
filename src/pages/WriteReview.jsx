@@ -44,7 +44,7 @@ const WriteReview = () => {
     const handleCreate = (e) => {
         e.preventDefault();
         createReview(reviewInfo);
-        navigate("/");
+        navigate(-1);
     }
 
     useEffect(() => {
