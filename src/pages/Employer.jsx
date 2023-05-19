@@ -9,13 +9,13 @@ import {
   } from 'chart.js';
 import { Radar } from 'react-chartjs-2';
 import { db } from '../firebase';
-import { getFirestore, collection, doc, getDocs, onSnapshot } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import React, {useState, useEffect} from "react";
 import { ScoreCircle, ReviewBox } from "../components";
 import { Link, useLocation } from "react-router-dom";
 import { mcdonalds } from "../assets";
 
-ChartJS.register(
+ChartJS.register( 
     RadialLinearScale,
     PointElement,
     LineElement,
@@ -24,7 +24,7 @@ ChartJS.register(
     Legend
   );
 
-const options = {
+const options = { // options for radar chart to be displayed as we want it to
     plugins: {
         legend: {
           display: false,
@@ -32,23 +32,23 @@ const options = {
     },
     scales: {
         r: {
-            max: 5,
-            min: 0,
+            max: 5, // max value of chart
+            min: 0, // min value of chart
             grid: {
-                color: 'rgba(240, 240, 240, 0.6)', // Change the color of grid lines to white
+                color: 'rgba(240, 240, 240, 0.6)', // change the color of grid lines to white
             },
             angleLines: {
-                color: 'rgba(240, 240, 240, 0.6)', // Change the color of angle lines to white
+                color: 'rgba(240, 240, 240, 0.6)', // change the color of angle lines to white
             },
             ticks: {
-                color: 'rgba(240, 240, 240, 0.6)', // Change the color of tick marks to white
+                color: 'rgba(240, 240, 240, 0.6)', // change the color of tick marks to white
                 stepSize: 1,
                 display: false,
             },
             pointLabels: {
-                color: 'rgba(250, 250, 250, 0.8)', // Change the color of the labels to white
+                color: 'rgba(250, 250, 250, 0.8)', // change the color of the labels to white
                 font: {
-                  size: 12, // Adjust the font size of the labels
+                  size: 12, // adjust the font size of the labels
                   family: 'Rubik, sans-serif',
                 },
             },
@@ -63,7 +63,7 @@ const Employer = () => {
     const [avgRating, setAvgRating] = useState([]);
     const [reviewData, setReviewData] = useState(null);
 
-    const calculateSingleAvgRating = () => {
+    const calculateSingleAvgRating = () => { // calculates the average rating of a single review to display
         data.forEach((item) => {
             let sum = item.payRating + item.difficultyRating + item.enjoymentRating + item.flexibilityRating + item.lifeWorkRating + item.cultureRating + item.diversityRating;
             let length = 7;
@@ -73,7 +73,7 @@ const Employer = () => {
         });
     }
 
-    const calculateAvgRatings = () => {
+    const calculateAvgRatings = () => { // calculates the average ratings of all categrories separately for radar chart to use
         let paySum = 0;
         let difficultySum = 0;
         let enjoymentSum = 0;
@@ -113,7 +113,7 @@ const Employer = () => {
     };
 
     useEffect(()=>{
-        const fetchReviews = async () => {
+        const fetchReviews = async () => { //fetches reviews of current employer from Firebase
             await getDocs(collection(db, "review"))
             .then((querysnapshot) => {
                 const buffer = querysnapshot.docs
@@ -130,19 +130,20 @@ const Employer = () => {
                         userID: doc.data().userID,
                         avgScore: 0,
                     }));
-                    setData(buffer);
+                    setData(buffer); // stores review information in data variable
             })
         }
         fetchReviews();
     }, []);
 
     useEffect(()=>{
-        const avgRating = calculateAvgRatings();
+        const avgRating = calculateAvgRatings(); // updates average rating values when data changes (reviews are added/changed)
         calculateSingleAvgRating();
         setAvgRating(avgRating);
     }, [data]);
 
     useEffect(()=> {
+        // sets information for radar chart to be displayed properly which updates whenever the overall average rating of the employer changes
         let reviewData = {
             labels: ['Difficulty', 'Enjoyment', 'Flexibility', 'Life-Work Balance', 'Culture', 'Diversity', 'Pay'],
             datasets: [

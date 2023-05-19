@@ -4,6 +4,7 @@ import { createBg } from '../assets';
 import { useNavigate } from 'react-router';
 
 const CreateEmployer = () => {
+    // establishes variables that will be needed for component to function properly
     const navigate = useNavigate();
     const [employerInfo, setEmployerInfo] = useState({
         employerName: '',
@@ -14,12 +15,13 @@ const CreateEmployer = () => {
         rating: 0
     });
 
-    // Handles input changes
+    // Handles input changes (updates page based on user input)
     const inputChange = (e) => {
         const { name, value } = e.target;
         setEmployerInfo(prev => ({ ...prev, [name]: value }));
     }
 
+    // Creates employer document inside employer collection in Firebase
     const handleCreate = (e) => {
         e.preventDefault();
         createEmployer(employerInfo);

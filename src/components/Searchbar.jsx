@@ -3,6 +3,7 @@ import { getAuth } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 
 const Searchbar = () => {
+    // establishes variables that will be needed for component to function properly
     const navigate = useNavigate();
     const [isEmpty, setIsEmpty] = useState(false);
     const auth = getAuth();
@@ -10,20 +11,20 @@ const Searchbar = () => {
     const autoCompleteRef = useRef();
     const inputRef = useRef();
 
-    const options = {
+    const options = { // options for autocomplete function from Google's Places API
         componentRestrictions: {country: "us"},
         fields: ["address_components", "geometry", "icon", "name"],
         types: ["(cities)"]
     };
 
-    useEffect(() => {
+    useEffect(() => { // useEffect for searchbar to update what can be autocompleted when user inputs places
         autoCompleteRef.current = new window.google.maps.places.Autocomplete(
             inputRef.current,
             options
         );
     },[])
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e) => { // when user submits it takes user input as data and passes the input information to the search page to display
         e.preventDefault();
         if (inputRef.current.value === "" || inputRef.current.value === undefined || inputRef.current.value === null) {
             setIsEmpty(true);
