@@ -19,15 +19,29 @@ const handleTabClick = (tabName) => {
   const auth = getAuth();
   const [name, setName] = useState([]);
   const [lastName, setLastName] = useState([]);
+  const [bookmark, setBookmark]  = useState([]);
+  const [uid, setUID]  = useState([]);
+  const [reviewid, setReviewID]  = useState([]);
   const [currUser, setCurrUser] = useState("");
   const [currEmail, setCurrEmail] = useState("");
   const [allUsers, setAllUsers] = useState([{}]);
+  const [allReviews, setAllReviews] = useState([{}]);
+  const [comments, setComments] = useState([]);
+  const [cultureRating, setcultureRating] = useState([]);
+  const [difficultyRating, setdifficultyRating] = useState([]);
+  const [diversityRating, setdiversityRating] = useState([]);
+  const [enjoymentRating, setenjoymentRating] = useState([]);
+  const [flexibilityRating, setflexibilityRating] = useState([]);
+  const [lifeWorkRating, setlifeWorkRating] = useState([]);
+  const [payRating, setpayRating] = useState([]);
+
 
   useEffect(()=>{
     onAuthStateChanged(auth, (user) => {
         if (user) {     // User is signed in
           setCurrUser(user.uid);
           setCurrEmail(user.email);
+          var uid = user.uid;
           fetchName();
         } else {
           setCurrUser('');
@@ -44,19 +58,43 @@ const handleTabClick = (tabName) => {
           email:doc.data().email, 
           firstName:doc.data().firstName,
           lastName:doc.data().lastName,
+          bookmark:doc.data().bookmark,
           id:doc.id 
 
         }));              
         setAllUsers(buffer);
       });
 
+      
+  }
+
+  const fetchReview = async () => {
+    await getDocs(collection(db, "review"))
+      .then((querysnapshot) => {
+        const bufferr = querysnapshot.docs.map((doc) => ({
+          userID:doc.userID, 
+          comments:doc.data().comments,
+          cultureRating:doc.data().cultureRating,
+          difficultyRating:doc.data().difficultyRating,
+          diversityRating:doc.data().diversityRating,
+          enjoymentRating:doc.data().enjoymentRating,
+          flexibilityRating:doc.data().flexibilityRating,
+          lifeWorkRating:doc.data().lifeWorkRating,
+          payRating:doc.data().payRating,
+         
+        }));              
+        setAllReviews(bufferr);
+      });
+
+      
   }
 
   useEffect(() => {
     if (allUsers.length > 1)
-      allUsers.forEach(e => e.email.toLowerCase() === currEmail.toLowerCase() ? (setName(e.firstName), setLastName(e.lastName)) : "");
-    // setName(currEmail);
-  }, [allUsers])
+      allUsers.forEach(e => e.email.toLowerCase() === currEmail.toLowerCase() ? (setName(e.firstName), setLastName(e.lastName), setBookmark(e.bookmark), setUID(e.id)) : "");
+    if (allReviews.length > 1)
+      allReviews.forEach(a => a.userID === uid ? (setComments(a.comments), setcultureRating(a.cultureRating), setdifficultyRating(a.difficultyRating), setdiversityRating(a.diversityRating), setenjoymentRating(a.enjoymentRating), setflexibilityRating(a.flexibilityRating), setlifeWorkRating(a.flexibilityRating), setlifeWorkRating(a.lifeWorkRating), setpayRating(a.payRating)) : "");
+  }, [allUsers] [allReviews])
 
     return (
     // First of three divs which divide the page into 3 columns, this first column contains the profile pic, username, profile, bookmarks etc 
@@ -100,6 +138,7 @@ const handleTabClick = (tabName) => {
             <div className=" flex flex-col relative w-1/3 min-w-[355px] pt-32 gap-16 h-full md:pt-4">
                 <div className=" w-full h-full blackFlip-gradient rounded-3xl px-[3rem] py-[2rem]">
                     <h1 className="text-3xl"> Bookmarked Employers </h1>
+                    <h2>{bookmark}</h2>
                 </div>
                 <div className="w-full h-full blackFlip-gradient rounded-3xl px-[3rem] py-[2rem]"></div>
                 <div className="w-full h-full blackFlip-gradient rounded-3xl px-[3rem] py-[2rem]"></div>
