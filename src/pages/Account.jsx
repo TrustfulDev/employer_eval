@@ -61,6 +61,7 @@ const handleTabClick = (tabName) => {
           .filter((doc) => doc.data().userID === String(currUser))
           .map((doc) => ({
             employerID: doc.data().employerID,
+            id: doc.id,
           }));
 
         setBookmarks(buffer);
@@ -68,6 +69,7 @@ const handleTabClick = (tabName) => {
   }
 
   const updateBook = () => {
+    setBookmarks(null);
     fetchBookmarks();
   }
 
@@ -92,7 +94,7 @@ const handleTabClick = (tabName) => {
                 {/* Profile, bookmark, Reviews div */}
                 <div className="md:flex md:gap-4 md:mt-20 md:justify-center">
                     <h2 className={`ml-12 text-[28px] lg:text-[24px] md:ml-0 ${activeTab === "profile" ? "" : "text-gray-400"} hover:text-white cursor-pointer`} onClick={() => handleTabClick("profile")}> Profile </h2>
-                    <h2 className={`ml-12 py-2 text-[28px] lg:text-[24px] md:ml-0 md:py-0 ${activeTab === "bookmarks" ? "" : "text-gray-400"} hover:text-white cursor-pointer`} onClick={() => {handleTabClick("bookmarks"); updateBook();}}> Bookmarks </h2>
+                    <h2 className={`ml-12 py-2 text-[28px] lg:text-[24px] md:ml-0 md:py-0 ${activeTab === "bookmarks" ? "" : "text-gray-400"} hover:text-white cursor-pointer`} onClick={() => {handleTabClick("bookmarks"); fetchBookmarks();}}> Bookmarks </h2>
                     <h2 className={`ml-12 text-[28px] lg:text-[24px] md:ml-0 ${activeTab === "reviews" ? "" : "text-gray-400"} hover:text-white cursor-pointer`} onClick={() => handleTabClick("reviews")}> Reviews </h2>
                 </div>
             </div>
@@ -122,7 +124,7 @@ const handleTabClick = (tabName) => {
                     {
                       bookmarks !== null ? bookmarks.map((e, index) => {
                         return (
-                          <BookmarkBox employer={e.employerID} key={index} />
+                          <BookmarkBox employer={e.employerID} id={e.id} parentCallback={updateBook} key={index} />
                         )
                       })
                       :

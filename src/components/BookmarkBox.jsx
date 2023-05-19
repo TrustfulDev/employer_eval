@@ -1,21 +1,29 @@
-import { getDocs, collection } from "firebase/firestore";
+import { getDocs, collection, doc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useState, useEffect } from 'react';
 import { ScoreCircle } from '../components';
 import { HiBookmarkSlash } from "react-icons/hi2";
 
-const BookmarkBox = (employer) => {
+const BookmarkBox = (props) => {
     const [realEmployer, setRealEmployer] = useState(null);
 
     useEffect(() => {
         getEmployer();
     }, [])
 
+    const handleDelete = () => {
+        const ref = doc(db, "bookmarks", props.id);
+        deleteDoc(ref)
+        .then(() => {
+            props.parentCallback();
+        })
+    }
+
     const getEmployer = async () => {
         await getDocs(collection(db, "employer"))
         .then((querysnapshot) => {
             const buffer = querysnapshot.docs
-            .filter((doc) => String(doc.id) === String(employer.employer))
+            .filter((doc) => String(doc.id) === String(props.employer))
             .map((doc) => ({
             name: doc.data().employerName,
             addr: doc.data().streetAddress,
@@ -30,7 +38,7 @@ const BookmarkBox = (employer) => {
             {
                 realEmployer !== null ?
                 <div className="flex items-center gap-8">
-                    <HiBookmarkSlash className="text-2xl cursor-pointer"/>
+                    <HiBookmarkSlash className="text-2xl cursor-pointer" onClick={handleDelete}/>
                     <div>
                         <h1>{realEmployer[0].name}</h1>
                         <h3>{realEmployer[0].addr}</h3>
