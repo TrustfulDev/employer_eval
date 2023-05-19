@@ -6,3 +6,4 @@ export { default as Filter } from './Filter';
 export { default as ScoreCircle } from './ScoreCircle';
 export { default as ReviewBox } from './ReviewBox';
 export { default as StarRating} from './StarRating';
+export { default as BookmarkBox} from './BookmarkBox';
